@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { getMyOrders } from "../services/profile";
 import SnackbarSimple from "../Components/SnakeBar";
 export default function MyOrders() {
-
+    const [token, setToken] = useState(null);
     const [orders, setOrders] = useState([]);
     const router = useRouter()
     const [snack, setSnack] = useState({
@@ -23,7 +23,7 @@ export default function MyOrders() {
     /* Calling Api for orders */
     const fetchOrders = async () => {
         try {
-            const res = await getMyOrders()
+            const res = await getMyOrders(token)
             setOrders(res.orders || []);
 
         } catch (error) {
@@ -34,6 +34,11 @@ export default function MyOrders() {
             });
         }
     };
+
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
 
     useEffect(() => {
         fetchOrders();

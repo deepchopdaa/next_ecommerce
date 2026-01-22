@@ -30,7 +30,7 @@ export default function CategoriesPage() {
     const [editId, setEditId] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const token = localStorage.getItem("token") || {};
+    const [token, setToken] = useState(null);
 
     const [snack, setSnack] = useState({
         open: false,
@@ -53,9 +53,14 @@ export default function CategoriesPage() {
     } = useForm();
 
     const fetchCategories = async () => {
-        const data = await getCategory()
+        const data = await getCategory(token)
         setCategories(data);
     };
+
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
 
     useEffect(() => {
         fetchCategories();
@@ -64,7 +69,7 @@ export default function CategoriesPage() {
     const onCreate = async (data) => {
 
         try {
-            const res = await createCategory(data)
+            const res = await createCategory({ data, token })
             reset();
 
             console.log(res.message, "responce message")
@@ -88,7 +93,7 @@ export default function CategoriesPage() {
 
     const handleDelete = async (id) => {
         try {
-            const res = await deleteCategory(id)
+            const res = await deleteCategory({ id, token })
             setLoading(false);
             setSnack({
                 open: true,
@@ -115,7 +120,7 @@ export default function CategoriesPage() {
 
     const onUpdate = async (data) => {
         try {
-            const res = await updateCategory({ editId, data })
+            const res = await updateCategory({ editId, data, token })
             setEditOpen(false);
             fetchCategories();
 

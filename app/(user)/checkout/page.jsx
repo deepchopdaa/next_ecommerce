@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button, Box, TextField } from "@mui/material"
@@ -17,6 +17,7 @@ const page = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         shouldUseNativeValidation: true,
     })
+    const [token, setToken] = useState(null);
 
     const [snack, setSnack] = useState({
         open: false,
@@ -54,7 +55,7 @@ const page = () => {
         };
 
         try {
-            const res = await createOrder(submitdata)
+            const res = await createOrder({ submitdata, token })
             setLoading(false);
             setSnack({
                 open: true,
@@ -75,6 +76,12 @@ const page = () => {
             });
         }
     };
+
+
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
 
 
     return (

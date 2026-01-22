@@ -62,7 +62,7 @@ export default function SellerBranchForm() {
         try {
             const userId = localStorage.getItem("userId")
             console.log(userId, "userId")
-            const res = await onBoardUser(data)
+            const res = await onBoardUser({ data, userId })
             setSnack({
                 open: true,
                 message: "onBoard are successfully!",

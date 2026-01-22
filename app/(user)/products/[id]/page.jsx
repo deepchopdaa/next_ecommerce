@@ -27,7 +27,7 @@ export default async function Page({ params }) {
             return null;
         }
     }
-    async function fetchReviews(id) {
+    async function fetchReviews() {
         try {
             await connectDB();
             console.log(id, "product id");

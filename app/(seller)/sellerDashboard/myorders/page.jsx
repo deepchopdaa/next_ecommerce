@@ -49,7 +49,7 @@ export default function SellerOrders() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [updating, setUpdating] = useState(false)
-
+    const [token, setToken] = useState(null);
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -58,7 +58,7 @@ export default function SellerOrders() {
 
     const fetchOrders = async () => {
         try {
-            const data = await getMyorders()
+            const data = await getMyorders(token)
             setOrders(data.orders || []);
         } catch (error) {
             setSnack({
@@ -85,13 +85,18 @@ export default function SellerOrders() {
         setSelectedOrder(null);
     };
 
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
+
     const handleStatusChange = async (newStatus) => {
         if (!selectedOrder) return;
 
         try {
             setUpdating(true);
 
-            const res = await updateOrderStatus({ selectedOrder, orderStatus: newStatus })
+            const res = await updateOrderStatus({ selectedOrder, orderStatus: newStatus, token })
 
             // Update UI locally (no refetch needed)
             setOrders((prev) =>

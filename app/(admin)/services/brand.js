@@ -1,8 +1,7 @@
 import { apiClient } from "@/app/utility/apiClient";
 
-const token = localStorage.getItem("token")
 
-export function getBrands() {
+export function getBrands(token) {
     return apiClient("/api/admin/brand", {
         method: "GET",
         headers: {
@@ -12,10 +11,10 @@ export function getBrands() {
     });
 }
 
-export function createBrand(payload) {
+export function createBrand({ data, token }) {
     return apiClient("/api/admin/brand", {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -23,7 +22,7 @@ export function createBrand(payload) {
     });
 }
 
-export function updateBrand({ editId, data }) {
+export function updateBrand({ editId, data, token }) {
     return apiClient(`/api/admin/brand/${editId}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -34,7 +33,7 @@ export function updateBrand({ editId, data }) {
     });
 }
 
-export function deleteBrand(id) {
+export function deleteBrand({ id, token }) {
     return apiClient(`/api/admin/brand/${id}`, {
         method: "DELETE",
         headers: {

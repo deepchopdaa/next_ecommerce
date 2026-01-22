@@ -1,7 +1,5 @@
 import { apiClient } from "@/app/utility/apiClient";
-
-const token = localStorage.getItem("token")
-export function getCategory() {
+export function getCategory(token) {
     return apiClient("/api/admin/category", {
         method: "GET",
         headers: {
@@ -11,10 +9,10 @@ export function getCategory() {
     });
 }
 
-export function createCategory(payload) {
+export function createCategory({ data, token }) {
     return apiClient("/api/admin/category", {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -22,7 +20,7 @@ export function createCategory(payload) {
     });
 }
 
-export function updateCategory({ editId, data }) {
+export function updateCategory({ editId, data, token }) {
     return apiClient(`/api/admin/category/${editId}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -33,7 +31,7 @@ export function updateCategory({ editId, data }) {
     });
 }
 
-export function deleteCategory(id) {
+export function deleteCategory({ id, token }) {
     return apiClient(`/api/admin/category/${id}`, {
         method: "DELETE",
         headers: {

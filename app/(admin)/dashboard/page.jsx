@@ -17,6 +17,8 @@ import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
 export default function SellerListPage() {
     const [sellers, setSellers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(null);
+
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -24,9 +26,14 @@ export default function SellerListPage() {
     });
 
     useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
+
+    useEffect(() => {
         const fetchSellers = async () => {
             try {
-                const data = await getsellerList()
+                const data = await getsellerList(token)
                 setSellers(data.data);
             } catch (error) {
                 setSnack({
@@ -74,7 +81,7 @@ export default function SellerListPage() {
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
                                                 {seller.user?.email}
-                                            </Typography>   
+                                            </Typography>
                                         </Box>
                                     </Box>
 

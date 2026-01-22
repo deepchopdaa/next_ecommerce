@@ -20,10 +20,7 @@ export default function UserProfilePage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [userId, setuserId] = useState(null)
-    const token =
-        typeof window !== "undefined"
-            ? localStorage.getItem("token")
-            : null;
+    const [token, setToken] = useState(null);
 
     const {
         register,
@@ -38,13 +35,18 @@ export default function UserProfilePage() {
         severity: "success",
     });
 
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
+
     // 🔹 Fetch user
     useEffect(() => {
         if (!token) return;
 
         const fetchUser = async () => {
             try {
-                const data = await getUserDetail()
+                const data = await getUserDetail(token)
                 setuserId(data?.user?._id)
                 setValue("name", data?.user?.name);
                 setValue("email", data?.user?.email);
@@ -65,7 +67,7 @@ export default function UserProfilePage() {
     const onSubmit = async (formData) => {
         try {
             setSaving(true);
-            const res = await updateUserDetail({ formData, userId })
+            const res = await updateUserDetail({ formData, userId, token })
 
             setSnack({
                 open: true,

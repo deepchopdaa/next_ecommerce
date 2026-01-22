@@ -1,11 +1,9 @@
 import { apiClient } from "../../utility/apiClient";
 
-const token = localStorage.getItem("token")
-
-export function createOrder(payload) {
+export function createOrder({ submitdata, token }) {
     return apiClient("/api/orders", {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(submitdata),
         headers: {
             Authorization: `Bearer ${token}`,
         }

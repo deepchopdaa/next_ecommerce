@@ -1,7 +1,6 @@
 import { apiClient } from "../../utility/apiClient";
 
-const token = localStorage.getItem("token")
-export function addReview({ values, productId }) {
+export function addReview({ values, productId, token }) {
     return apiClient("/api/user/userDetail/reviews", {
         method: "POST",
         body: JSON.stringify({ ...values, productId }),

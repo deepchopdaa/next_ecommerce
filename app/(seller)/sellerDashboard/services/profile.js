@@ -1,9 +1,7 @@
 import { apiClient } from "@/app/utility/apiClient";
 
-const token = localStorage.getItem("token")
-
 /* profile */
-export function getSellerProfile() {
+export function getSellerProfile(token) {
     return apiClient("/api/seller/profile", {
         method: "GET",
         headers: {
@@ -13,7 +11,7 @@ export function getSellerProfile() {
 }
 
 /* branches */
-export function createSellerBranch({ form, sellerId }) {
+export function createSellerBranch({ form, sellerId, token }) {
     return apiClient(`/api/seller/profile/branch`, {
         method: "POST",
         body: JSON.stringify({
@@ -27,7 +25,7 @@ export function createSellerBranch({ form, sellerId }) {
     });
 }
 
-export function updateSellerBranch({ data, seller }) {
+export function updateSellerBranch({ data, seller, token }) {
     return apiClient(`/api/seller/profile/${seller._id}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -38,7 +36,7 @@ export function updateSellerBranch({ data, seller }) {
     });
 }
 
-export function deleteSellerBranch(id) {
+export function deleteSellerBranch({ id, token }) {
     return apiClient(`/api/seller/profile/branch/${id}`, {
         method: "DELETE",
         headers: {
@@ -49,7 +47,7 @@ export function deleteSellerBranch(id) {
 }
 
 
-export function primarySellerBranch(payload) {
+export function primarySellerBranch({ payload, token }) {
     return apiClient(`/api/seller/profile/branch`, {
         method: "PUT",
         body: JSON.stringify(payload),

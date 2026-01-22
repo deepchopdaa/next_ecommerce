@@ -1,7 +1,6 @@
 import { apiClient } from "@/app/utility/apiClient";
 
-const token = localStorage.getItem("token")
-export function getMyorders() {
+export function getMyorders(token) {
     return apiClient("/api/seller/myorders", {
         method: "GET",
         headers: {
@@ -10,7 +9,7 @@ export function getMyorders() {
     });
 }
 
-export function updateOrderStatus({ selectedOrder, orderStatus }) {
+export function updateOrderStatus({ selectedOrder, orderStatus, token }) {
     return apiClient(`/api/seller/myorders/${selectedOrder?._id}/status`, {
         method: "PATCH",
         body: JSON.stringify(orderStatus),

@@ -1,7 +1,6 @@
 import { apiClient } from "@/app/utility/apiClient";
 
-const token = localStorage.getItem("token")
-export function getsellerList() {
+export function getsellerList(token) {
     return apiClient("/api/admin/sellerList", {
         method: "GET",
         headers: {

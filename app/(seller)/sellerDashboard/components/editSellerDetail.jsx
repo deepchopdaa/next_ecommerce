@@ -15,6 +15,7 @@ import { updateSellerBranch } from "../services/profile";
 import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
 
 export default function EditSellerModal({ open, handleClose, seller }) {
+    const [token, setToken] = useState(null);
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -44,10 +45,15 @@ export default function EditSellerModal({ open, handleClose, seller }) {
         }
     }, [seller, reset]);
 
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
+
     // 🔹 Submit handler
     const onSubmit = async (data) => {
         try {
-            await updateSellerBranch({ data, seller })
+            await updateSellerBranch({ data, seller, token })
             handleClose()
             setSnack({
                 open: true,

@@ -26,6 +26,9 @@ const style = {
 };
 
 export default function CreateBranchModal({ open, handleClose, sellerId }) {
+
+    const [token, setToken] = useState(null);
+
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -51,11 +54,12 @@ export default function CreateBranchModal({ open, handleClose, sellerId }) {
         });
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const data = await createSellerBranch({ sellerId, form })
+            const data = await createSellerBranch({ sellerId, form, token })
 
             handleClose();
             setForm({
@@ -82,6 +86,11 @@ export default function CreateBranchModal({ open, handleClose, sellerId }) {
             });
         }
     };
+
+    useEffect(() => {
+        const t = localStorage.getItem("token");
+        setToken(t);
+    }, []);
 
     return (
         <>

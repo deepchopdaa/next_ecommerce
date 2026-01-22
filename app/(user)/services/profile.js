@@ -1,8 +1,7 @@
 import { apiClient } from "../../utility/apiClient";
 
-const token = localStorage.getItem("token")
 
-export function getMyOrders() {
+export function getMyOrders(token) {
     return apiClient(`/api/orders`, {
         method: "GET",
         headers: {
@@ -18,7 +17,7 @@ export function getUserDetail() {
         }
     });
 }
-export function updateUserDetail({ formData, userId }) {
+export function updateUserDetail({ formData, userId, token }) {
     return apiClient(`/api/user/userDetail"`, {
         method: "PUT",
         body: JSON.stringify({ ...formData, userId }),

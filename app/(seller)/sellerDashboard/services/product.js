@@ -1,9 +1,7 @@
 import { apiClient } from "@/app/utility/apiClient";
 
-const token = localStorage.getItem("token")
-
 /* UserDetail */
-export function getUserDetail() {
+export function getUserDetail(token) {
     return apiClient("/api/user/userDetail", {
         method: "GET",
         headers: {
@@ -14,7 +12,7 @@ export function getUserDetail() {
 }
 
 /* products Category / Brands */
-export function getCategory() {
+export function getCategory(token) {
     return apiClient("/api/admin/category", {
         method: "GET",
         headers: {
@@ -23,7 +21,7 @@ export function getCategory() {
         }
     });
 }
-export function getBrands() {
+export function getBrands(token) {
     return apiClient("/api/admin/brand", {
         method: "GET",
         headers: {
@@ -34,7 +32,7 @@ export function getBrands() {
 }
 
 /* Product Crud */
-export function getProducts() {
+export function getProducts(token) {
     return apiClient("/api/seller/product", {
         method: "GET",
         headers: {
@@ -44,7 +42,7 @@ export function getProducts() {
     });
 }
 
-export function createAndUpdateProducts({ url, method, formData }) {
+export function createAndUpdateProducts({ url, method, formData, token }) {
     return apiClient(`${url}`, {
         method: method,
         body: formData,
@@ -54,7 +52,7 @@ export function createAndUpdateProducts({ url, method, formData }) {
     });
 }
 
-export function deleteProducts(deleteId) {
+export function deleteProducts({ deleteId, token }) {
     return apiClient(`/api/seller/product?id=${deleteId}`, {
         method: "DELETE",
         headers: {
