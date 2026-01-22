@@ -22,7 +22,7 @@ const page = () => {
 
     return (
         <>
-            <div className="ml-5 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 mt-10">
+            <div className="ml-5 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 mt-10">
                 {items?.products?.slice(0, 4).map((product) => (
                     <div key={product?._id} className="shadow-lg max-w-[345px]">
                         <div onClick={() => router.push(`/products/${product?._id}`)}>

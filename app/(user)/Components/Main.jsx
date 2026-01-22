@@ -1,38 +1,40 @@
-import React from 'react'
-import ProductCard from './Card'
-import { Box, Grid } from '@mui/material'
+"use client";
 
-const Main = () => {
+import { useEffect, useState } from "react";
+import { Grid, Box } from "@mui/material";
+import SellerCard from "./SellerCard";
+
+import { fetchCategories, fetchBrands } from "../../store/slices/categoryBrandSlice";
+import { useDispatch } from "react-redux";
+import { getSellerList } from "../services/sellerListService";
+export default function HomePage() {
+    const [sellers, setSellers] = useState([]);
+    /* api Calling for filter Sidebar in Products */
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCategories());
+        dispatch(fetchBrands());
+    }, [dispatch]);
+
+
+    useEffect(() => {
+        const fetchSeller = async () => {
+            const res = await getSellerList()
+            setSellers(res.sellers)
+        }
+        fetchSeller()
+    }, []);
+
     return (
-        <div>
-            <Grid container spacing={3} sx={{ padding: 4 }}>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                    <ProductCard />
-                </Grid>
+        <Box sx={{ p: 4 }}>
+            <Grid container spacing={3}>
+                {sellers?.map((seller) => (
+                    <Grid item xs={12} sm={6} md={3} key={seller._id}>
+                        <SellerCard seller={seller} />
+                    </Grid>
+                ))}
             </Grid>
-        </div >
-    )
+        </Box>
+    );
 }
-
-export default Main

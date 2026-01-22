@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import SnackbarSimple from "../../../(user)/Components/SnakeBar";
+import { createBrand, deleteBrand, getBrands, updateBrand } from "../../services/brand";
 
 export default function BrandPage() {
     const [brands, setBrands] = useState([]);
@@ -55,14 +56,7 @@ export default function BrandPage() {
 
     /* Getting Brand */
     const fetchBrands = async () => {
-        const res = await fetch("/api/admin/brand", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await res.json();
+        const data = await getBrands()
         setBrands(data);
     };
 
@@ -73,44 +67,29 @@ export default function BrandPage() {
     /* For Creating Brand */
     const onCreate = async (data) => {
         setLoading(true);
-        const res = await fetch("/api/admin/brand", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
-        });
-
-        const message = await res.json();
-        reset();
-
-        if (res.ok) {
+        try {
+            const res = await createBrand(data)
+            reset();
             setSnack({ open: true, message: "Brand added successfully!", severity: "success" });
-        } else {
-            setSnack({ open: true, message: message.error, severity: "error" });
+        } catch (error) {
+            setSnack({ open: true, message: error.message || "Brand adding Failed", severity: "error" });
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
         fetchBrands();
     };
 
     /* for Delete Brand */
     const handleDelete = async (id) => {
-        const res = await fetch(`/api/admin/brand/${id}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        });
-
-        const message = await res.json();
-
-        if (res.ok) {
+        try {
+            const res = await deleteBrand(id)
             setSnack({ open: true, message: "Brand deleted!", severity: "success" });
-        } else {
-            setSnack({ open: true, message: message.error, severity: "error" });
+        } catch (error) {
+            setSnack({ open: true, message: error.message || "Brand not Deleted", severity: "error" });
         }
         fetchBrands();
-    };
+    }
+
 
     /* For Brand Update model open that time set value */
     const openEdit = (brand) => {
@@ -121,25 +100,16 @@ export default function BrandPage() {
 
     /* For Brand Update */
     const onUpdate = async (data) => {
-        const res = await fetch(`/api/admin/brand/${editId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
-        });
-
-        const message = await res.json();
-        setEditOpen(false);
-
-        if (res.ok) {
+        try {
+            const res = await updateBrand({ editId, data })
+            setEditOpen(false);
             setSnack({ open: true, message: "Brand updated!", severity: "success" });
-        } else {
-            setSnack({ open: true, message: message.error, severity: "error" });
-        }
 
-        fetchBrands();
+        } catch (error) {
+            setSnack({ open: true, message: error.message || "Brand Not updated!", severity: "error" });
+        } finally {
+            fetchBrands();
+        }
     };
 
     return (

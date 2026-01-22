@@ -27,31 +27,57 @@ export default async function Page({ params }) {
             return null;
         }
     }
-    async function fetchReviews() {
+    async function fetchReviews(id) {
         try {
             await connectDB();
-            console.log(id, "id........")
-            const reviews = await review.find({ productId: id }).populate("userId", "name")
-            console.log(reviews)
-            return JSON.parse(JSON.stringify(reviews));
+            console.log(id, "product id");
+
+            const reviews = await review
+                .find({ productId: id })
+                .populate("userId", "name")
+                .lean();
+
+            // Calculate average rating
+            const reviewCount = reviews.length;
+
+            const avgRating =
+                reviewCount > 0
+                    ? Number(
+                        (
+                            reviews.reduce((sum, r) => sum + (r.rating || 0), 0) /
+                            reviewCount
+                        ).toFixed(1)
+                    )
+                    : 0;
+
+            return {
+                reviews,
+                avgRating,
+                reviewCount,
+            };
         } catch (error) {
-            console.log("Error fetching product:", error);
-            return null;
+            console.error("Error fetching reviews:", error);
+            return {
+                reviews: [],
+                avgRating: 0,
+                reviewCount: 0,
+            };
         }
     }
 
     const product = await fetchProduct();
-    const reviews = await fetchReviews();
+    const { reviews, avgRating, reviewCount } = await fetchReviews();
 
     const price = product.price;
     const discountPrice = product.discountPrice;
+
+    console.log(reviews, "reviews of the product !")
 
     const discountPercent =
         price > 0
             ? Math.round(((price - discountPrice) / price) * 100)
             : 0;
 
-    console.log(reviews, "reviews")
     if (!product) return <p>Product not found!</p>;
 
     return (
@@ -59,7 +85,7 @@ export default async function Page({ params }) {
             <div className="lg:flex w-full">
                 <Image
                     alt={product?.name}
-                    src={`/uploads/${product?.image}`}
+                    src={product?.image}
                     width={500}
                     height={500}
                     className="object-contain mx-auto mt-10"
@@ -91,7 +117,7 @@ export default async function Page({ params }) {
                     </p>
 
                     <p className="mt-2">
-                        Rating: ⭐ {product?.rating} ({product?.reviews} reviews)
+                        Rating: ⭐ {avgRating} ({reviewCount} reviews)
                     </p>
 
                     <div className="flex gap-4 mt-6">
@@ -100,7 +126,7 @@ export default async function Page({ params }) {
                 </div>
             </div>
 
-            <Suspense fallback={<h1 className="text-center mt-10 font-sbold text-3xl">Products Loading ...</h1>}>
+            <Suspense fallback={<h1 className="text-center mt-10 font-sbold text-3xl">Reviews Loading ...</h1>}>
                 <ReviewForm reviews={reviews} productId={product._id} />
             </Suspense>
 

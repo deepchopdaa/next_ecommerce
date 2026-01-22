@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import SnackbarSimple from "../../../(user)/Components/SnakeBar"
+import { createCategory, deleteCategory, getCategory, updateCategory } from "../../services/category";
 
 export default function CategoriesPage() {
     const [categories, setCategories] = useState([]);
@@ -52,14 +53,7 @@ export default function CategoriesPage() {
     } = useForm();
 
     const fetchCategories = async () => {
-        const res = await fetch("/api/admin/category", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
-        });
-        const data = await res.json();
+        const data = await getCategory()
         setCategories(data);
     };
 
@@ -68,64 +62,49 @@ export default function CategoriesPage() {
     }, []);
 
     const onCreate = async (data) => {
-        const res = await fetch("/api/admin/category", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            }, body: JSON.stringify(data),
-        });
-        reset();
 
-        const message = await res.json()
-        console.log(message.message, "responce message")
+        try {
+            const res = await createCategory(data)
+            reset();
 
-        if (res.ok) {
+            console.log(res.message, "responce message")
             setLoading(false);
             setSnack({
                 open: true,
                 message: "Category Added successfully!",
                 severity: "success",
             });
-        } else {
+        } catch (error) {
             setLoading(false);
             setSnack({
                 open: true,
-                message: message.message,
+                message: error.message,
                 severity: "error",
             });
+        } finally {
+            fetchCategories();
         }
-
-        fetchCategories();
     };
 
     const handleDelete = async (id) => {
-        const res = await fetch(`/api/admin/category/${id}`, {
-            method: "DELETE", headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
-        });
-
-        const message = await res.json()
-        console.log(message.message, "responce message")
-
-        if (res.ok) {
+        try {
+            const res = await deleteCategory(id)
             setLoading(false);
             setSnack({
                 open: true,
                 message: "Category Delete successfully!",
                 severity: "success",
             });
-        } else {
+        } catch (error) {
             setLoading(false);
             setSnack({
                 open: true,
-                message: message.message,
+                message: error.message,
                 severity: "error",
             });
+        } finally {
+            fetchCategories();
         }
-        fetchCategories();
     };
 
     const openEdit = (cat) => {
@@ -135,34 +114,28 @@ export default function CategoriesPage() {
     };
 
     const onUpdate = async (data) => {
-        const res = await fetch(`/api/admin/category/${editId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
-        });
-        setEditOpen(false);
-        fetchCategories();
+        try {
+            const res = await updateCategory({ editId, data })
+            setEditOpen(false);
+            fetchCategories();
 
-        const message = await res.json()
-        console.log(message.message, "responce message")
-
-        if (res.ok) {
             setLoading(false);
             setSnack({
                 open: true,
                 message: "Category Update successfully!",
                 severity: "success",
             });
-        } else {
+
+        } catch (error) {
+
             setLoading(false);
             setSnack({
                 open: true,
-                message: message.message,
+                message: error.message,
                 severity: "error",
             });
+        } finally {
+            fetchCategories()
         }
     };
 

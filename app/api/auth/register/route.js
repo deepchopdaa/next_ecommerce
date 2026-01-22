@@ -8,10 +8,10 @@ export async function POST(req) {
         await connectDB();
         console.log("api called successfully")
 
-        const { name, email, password } = await req.json();
+        const { name, email, password, role } = await req.json();
 
-        console.log("request body", name, email, password);
-        if (!name, !email, !password) {
+        console.log("request body", name, email, password, role);
+        if (!name, !email, !password, !role) {
             return Response.json(
                 { message: "all feild are required" },
                 { status: 400 }
@@ -26,7 +26,7 @@ export async function POST(req) {
         console.log("user varification complete password section start")
         const hashPassoword = await bcrypt.hash(password, 10)
 
-        const newUser = await User.create({ name, email, password: hashPassoword })
+        const newUser = await User.create({ name, email, password: hashPassoword, role })
 
         return Response.json(
             {
@@ -34,7 +34,8 @@ export async function POST(req) {
                 user: {
                     _id: newUser._id,
                     name: newUser.name,
-                    email: newUser.email
+                    email: newUser.email,
+                    role: newUser.role
                 }
             },
             { status: 201 }

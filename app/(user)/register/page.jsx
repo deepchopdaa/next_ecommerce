@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { registerUser } from "../services/authService";
 import SnackbarSimple from "../Components/SnakeBar";
 import { useForm } from "react-hook-form"
 import {
@@ -11,14 +12,19 @@ import {
     Typography,
     Box,
 } from "@mui/material";
+import { Switch, FormControlLabel } from "@mui/material";
+
 import { useRouter } from "next/navigation";
 
 
 export default function RegisterForm() {
     const [loading, setLoading] = useState(false);
+    const [isSeller, setIsSeller] = useState(true);
+
     const { register, handleSubmit, formState: { errors } } = useForm({
         shouldUseNativeValidation: true,
     })
+
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -26,36 +32,45 @@ export default function RegisterForm() {
     });
     const Router = useRouter()
 
-    const submitform = async (values) => {
-        setLoading(true);
-        setTimeout(() => { }, 5000);
 
-        const res = await fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-        });
-        const data = await res.json();
-        console.log(data);
-        if (res.ok) {
-            setLoading(false);
+    const submitform = async (values) => {
+        try {
+            setLoading(true);
+
+            const payload = {
+                ...values,
+                role: isSeller ? "seller" : "user",
+            };
+
+            const data = await registerUser(payload);
+            console.log(data)
+            const role = data?.user?.role;
+            const userId = data?.user?._id
+            console.log(userId, "Created User Id")
+
             setSnack({
                 open: true,
                 message: "Register successfully!",
                 severity: "success",
             });
-            Router.push("/login");
-        } else {
-            setLoading(false);
+
+            if (role === "seller") {
+                localStorage.setItem("userId", userId)
+                Router.push("/onBoard");
+            } else {
+                Router.push("/login");
+            }
+
+        } catch (error) {
             setSnack({
                 open: true,
-                message: "Wrong user details!",
+                message: error.message || "Wrong user details!",
                 severity: "error",
             });
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
 
     return (
@@ -152,6 +167,19 @@ export default function RegisterForm() {
                                     helperText={errors.password?.message}
                                 />
                             </Box>
+                            <Box mb={2} display="flex" justifyContent="center">
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={isSeller}
+                                            onChange={(e) => setIsSeller(e.target.checked)}
+                                            color="secondary"
+                                        />
+                                    }
+                                    label={isSeller ? "Register as Seller" : "Register as User"}
+                                />
+                            </Box>
+
 
                             <Button
                                 type="submit"

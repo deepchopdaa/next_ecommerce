@@ -6,10 +6,10 @@ import { Button, Box, TextField } from "@mui/material"
 import SnackbarSimple from '../Components/SnakeBar'
 import { clearCart } from "@/app/store/slices/cartSlice";
 import { useRouter } from "next/navigation";
+import { createOrder } from '../services/order'
 
 const page = () => {
 
-    const token = localStorage?.getItem("token")
     const cart = useSelector((state) => state.cart.cartItems)
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
@@ -42,6 +42,7 @@ const page = () => {
                 image: item?.image,
                 qty: item?.quantity,
                 price: item?.discountPrice,
+                sellerId: item?.sellerId
             })),
 
             shippingAddress: data,
@@ -53,34 +54,25 @@ const page = () => {
         };
 
         try {
-            const res = await fetch("/api/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
-                body: JSON.stringify(submitdata),
+            const res = await createOrder(submitdata)
+            setLoading(false);
+            setSnack({
+                open: true,
+                message: "Order Placed Successfully",
+                severity: "success",
             });
-            if (res.ok) {
-                setLoading(false);
-                setSnack({
-                    open: true,
-                    message: "Order Placed Successfully",
-                    severity: "success",
-                });
-                dispatch(clearCart())
-                router.push(`/myorders`)
-                reset()
-            } else {
-                setLoading(false);
-                setSnack({
-                    open: true,
-                    message: res?.message,
-                    severity: "error",
-                });
-            }
+            dispatch(clearCart())
+            router.push(`/myorders`)
+            reset()
+
         } catch (error) {
             console.error("Order creation failed:", error);
+            setLoading(false);
+            setSnack({
+                open: true,
+                message: error.message || "Orderd Not Placed",
+                severity: "error",
+            });
         }
     };
 
@@ -305,7 +297,7 @@ const page = () => {
             <SnackbarSimple
                 open={snack.open}
                 setOpen={(open) => setSnack({ ...snack, open })}
-                message={snack.message}
+                message={snack?.message}
                 severity={snack.severity}
             />
         </div>

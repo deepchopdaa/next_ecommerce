@@ -11,22 +11,22 @@ export default function ContactForm() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    /* const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+        // e.preventDefault();
 
-        const res = await fetch("/api/contact", {
-            method: "POST",
-            body: JSON.stringify(form),
-        });
+        // const res = await fetch("/api/contact", {
+        //     method: "POST",
+        //     body: JSON.stringify(form),
+        // });
 
-        if (res.ok) {
-            setForm({ name: "", email: "", message: "" });
-            setSnack({ open: true, message: "contact detail send successfully", severity: "success" });
-        } else {
-            setForm({ name: "", email: "", message: "" });
-            setSnack({ open: true, message: "contact detail send failed", severity: "error" });
-        }
-    }; */
+        // if (res.ok) {
+        //     setForm({ name: "", email: "", message: "" });
+        //     setSnack({ open: true, message: "contact detail send successfully", severity: "success" });
+        // } else {
+        //     setForm({ name: "", email: "", message: "" });
+        //     setSnack({ open: true, message: "contact detail send failed", severity: "error" });
+        // }
+    };
 
     return (
         <>

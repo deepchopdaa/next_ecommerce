@@ -1,5 +1,8 @@
 "use client";
 import * as React from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { usePathname } from "next/navigation";
 import {
     AppBar,
     Toolbar,
@@ -13,10 +16,12 @@ import {
     ListItemText,
     InputBase,
     Badge,
+    Menu,
+    MenuItem,
+    ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import FavoriteBorderSharpIcon from "@mui/icons-material/FavoriteBorderSharp";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -26,25 +31,58 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../public/images/logo.jpg";
-import { useSelector } from "react-redux";
-import { usePathname } from "next/navigation";
-
-
+import {
+    Login,
+    Logout,
+    Person,
+    ShoppingBag,
+} from "@mui/icons-material";
+import { fetchProducts, setFilter } from "@/app/store/slices/productSlice";
 export default function Navbar() {
+
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const cartItems = useSelector((state) => state.cart.cartItems)
     const wishlistItem = useSelector((state) => state.wishList.wishListItems)
     const navItems = [
         { label: "Home", href: "/" },
-        { label: "Shop", href: "/products" },
+        { label: "Products", href: "/products" },
         { label: "About", href: "/about" },
         { label: "Contact", href: "/contact" },
     ];
+
+    const dispatch = useDispatch();
+    const search = useSelector((state) => state.products.filters.search);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            dispatch(fetchProducts());
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [search, dispatch]);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleAccountClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleAccountClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        handleAccountClose();
+        window.location.href = "/login";
+    };
+
     const pathname = usePathname();
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-    const token = localStorage.getItem("token")
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
 
     const drawer = (
         <Box onClick={handleDrawerToggle} className="w-64 bg-white h-full p-4 text-gray-800">
@@ -68,7 +106,7 @@ export default function Navbar() {
     );
 
     return (
-        <Box className="sticky top-0 z-50">
+        <Box className="sticky top-0 z-50 ">
             <AppBar
                 sx={{ position: "sticky" }}
                 className="bg-white text-gray-900 shadow-lg"
@@ -116,7 +154,13 @@ export default function Navbar() {
                     <Box className="flex bg-gray-100 px-3 py-1 rounded-lg items-center">
                         <SearchIcon className="text-gray-600" />
                         <InputBase
-                            placeholder="Search…"
+                            placeholder="Search products..."
+                            value={search}
+                            onChange={(e) =>
+                                dispatch(
+                                    setFilter({ key: "search", value: e.target.value })
+                                )
+                            }
                             className="ml-2 w-48 md:w-64 lg:w-92 xl:w-128 "
                         />
                     </Box>
@@ -135,23 +179,71 @@ export default function Navbar() {
                             </IconButton>
                         </Link>
 
+
                         {/* Account Button */}
-                        <Link href={token ? "/myorders" : "/login"}>
-                            <IconButton
-                                className={`
-                                    font-medium transition-all
-                                    ${pathname.startsWith("/login")
-                                        ? "text-black font-bold pb-1"
-                                        : "text-gray-700 hover:text-black"
-                                    }
-                                `}
-                            >
-                                {pathname.startsWith("/login")
-                                    ? <AccountCircle />
-                                    : <AccountCircleOutlined />
-                                }
-                            </IconButton>
-                        </Link>
+                        <IconButton
+                            onClick={handleAccountClick}
+                            className="text-gray-700 hover:text-black"
+                        >
+                            {token ? <AccountCircle /> : <AccountCircleOutlined />}
+                        </IconButton>
+
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleAccountClose}
+                            disableScrollLock
+                            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                            transformOrigin={{ vertical: "top", horizontal: "right" }}
+                        >
+                            {!token ? (
+                                <MenuItem
+                                    onClick={() => {
+                                        handleAccountClose();
+                                        window.location.href = "/login";
+                                    }}
+                                >
+                                    <ListItemIcon>
+                                        <Login fontSize="small" />
+                                    </ListItemIcon>
+                                    Login
+                                </MenuItem>
+                            ) : (
+                                <>
+                                    <MenuItem
+                                        onClick={() => {
+                                            handleAccountClose();
+                                            window.location.href = "/profile";
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <Person fontSize="small" />
+                                        </ListItemIcon>
+                                        Profile
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        onClick={() => {
+                                            handleAccountClose();
+                                            window.location.href = "/myorders";
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <ShoppingBag fontSize="small" />
+                                        </ListItemIcon>
+                                        My Orders
+                                    </MenuItem>
+
+                                    <MenuItem onClick={handleLogout}>
+                                        <ListItemIcon>
+                                            <Logout fontSize="small" />
+                                        </ListItemIcon>
+                                        Logout
+                                    </MenuItem>
+                                </>
+                            )}
+                        </Menu>
+
 
                         {/* Cart Button */}
                         <Link href="/cart">

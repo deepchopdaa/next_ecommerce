@@ -5,6 +5,16 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    sellerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Seller",
+        required: true
+    },
+    branch: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Branch",
+        required: true
+    },
     price: {
         type: Number,
         required: true,
@@ -28,8 +38,14 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     image: {
-        type: String,
-        required: true,
+        url: {
+            type: String,
+            required: true
+        },
+        public_id: {
+            type: String,
+            required: true
+        }
     },
     stock: {
         type: Number,
@@ -40,4 +56,5 @@ const productSchema = new mongoose.Schema({
         default: Date.now,
     },
 });
+
 export default mongoose.models.Product || mongoose.model("Product", productSchema);

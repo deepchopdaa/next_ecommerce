@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SnackbarSimple from "../Components/SnakeBar";
+import { loginUser } from "../services/authService";
 import { useForm } from "react-hook-form"
 import {
     TextField,
@@ -16,6 +17,7 @@ import Link from "next/link";
 
 
 export default function LoginForm() {
+
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm({
         shouldUseNativeValidation: true,
@@ -28,46 +30,49 @@ export default function LoginForm() {
     const Router = useRouter()
 
     const submitform = async (values) => {
-        console.log(values, 'values')
-        setLoading(true);
-        setTimeout(() => { }, 2000);
 
-        const res = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-        });
+        try {
 
-        const data = await res.json();
-        console.log(data);
-        const token = data.token;
-        const role = data.userRole
+            console.log(values, 'values')
+            setLoading(true);
+            setTimeout(() => { }, 2000);
 
-        if (token) {
-            localStorage.setItem("token", token);
-        }
+            const data = await loginUser(values);
 
-        if (role) {
-            localStorage.setItem("role", role)
-        }
+            console.log(data);
+            const token = data.token;
+            const role = data.userRole
 
-        if (res.ok) {
-            setLoading(false);
+            if (token) {
+                localStorage.setItem("token", token);
+            }
+
+            if (role) {
+                localStorage.setItem("role", role)
+            }
+
             setSnack({
                 open: true,
                 message: "Login successfully!",
                 severity: "success",
             });
-            { role === "admin" ? Router.push("/dashboard") : Router.push("myorders") }
-        } else {
-            setLoading(false);
+
+            if (role === "admin") {
+                Router.push("/dashboard");
+            } else if (role === "seller") {
+                Router.push("/sellerDashboard");
+            } else {
+                Router.push("/myorders");
+            }
+
+        } catch (error) {
             setSnack({
                 open: true,
-                message: "Wrong user details!",
+                message: error.message || "Wrong user details!",
                 severity: "error",
             });
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -167,7 +172,7 @@ export default function LoginForm() {
                             >
                                 {loading ? "Logging in..." : "Login"}
                             </Button>
-                            
+
                             <Link href="/register" style={{ textDecoration: 'none' }}>
                                 <Typography variant="body2" textAlign="center" mt={2} color="black" sx={{ cursor: 'pointer' }}>
                                     Don't have an account? Register

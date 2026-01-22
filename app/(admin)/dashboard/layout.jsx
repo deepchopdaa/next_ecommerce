@@ -29,7 +29,6 @@ export default function AdminAuthWrapper({ children }) {
                 <div className={`${marginLeft} flex-1 transition-all duration-300`}>
                     {children}
                 </div>
-            </div >) : <h1 className="text-center text-3xl mt-10 text-red-500">Admin AccessOnly</h1>
-
+            </div >) : <h1 className="text-center text-3xl mt-10 text-red-500">Only Admin Can Access</h1>
     );
 }

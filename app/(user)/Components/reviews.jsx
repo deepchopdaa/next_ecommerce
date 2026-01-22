@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Box, Button, Rating, TextField, Typography } from "@mui/material";
 import SnackbarSimple from "../Components/SnakeBar"
+import { addReview } from "../services/productReviews";
 
 export default function ReviewForm({ reviews, productId }) {
     const [loading, setLoading] = useState(false);
 
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     const [snack, setSnack] = useState({
         open: false,
@@ -30,36 +30,24 @@ export default function ReviewForm({ reviews, productId }) {
     });
 
     const onSubmit = async (values) => {
+        try {
 
-        console.log(values, "form submit values ")
-        const res = await fetch("/api/user/userDetail/reviews", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                ...values,
-                productId
-            }),
-        });
-        reset();
+            const res = await addReview({ values, productId })
+            reset();
 
-        const message = await res.json()
-        console.log(message.message, "responce message")
-
-        if (res.ok) {
             setLoading(false);
             setSnack({
                 open: true,
-                message: "Review Added successfully!",
+                message: "Review Added successfully !",
                 severity: "success",
             });
-        } else {
+
+        } catch (error) {
+
             setLoading(false);
             setSnack({
                 open: true,
-                message: message.message,
+                message: error.message || "Review Added Failed !",
                 severity: "error",
             });
         }

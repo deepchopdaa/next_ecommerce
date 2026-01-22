@@ -12,12 +12,16 @@ export async function middleware(req) {
             return NextResponse.json({ message: "No token provided" }, { status: 401 });
         }
 
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(decoded, "decoded token")
+
         console.log("decoded:", decoded);
 
         if (!decoded?._id) {
             return NextResponse.json({ message: "Invalid token" }, { status: 401 });
         }
+
 
         const requestHeaders = new Headers(req.headers);
         requestHeaders.set("userId", decoded._id);
@@ -31,13 +35,13 @@ export async function middleware(req) {
         });
 
     } catch (error) {
-        console.log("middleware error:", error);
-        return NextResponse.json({ message: "server error" }, { status: 500 });
+        console.log("middleware error:", error.constructor);
+        return NextResponse.json({ message: error.message }, { status: 409 });
     }
 }
 
 /* This Congfigration For Protected Api Route */
 export const config = {
-    matcher: ["/api/user/userDetail/:path*", "/api/orders/:path*", "/api/admin/product/:path*"],
+    matcher: ["/api/user/userDetail/:path*", "/api/orders/:path*", "/api/seller/:path*", "/api/seller/product/:path*"],
     runtime: "nodejs",
 };
