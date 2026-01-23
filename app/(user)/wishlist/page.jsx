@@ -58,7 +58,7 @@ const WishlistPage = () => {
                                             <Image
                                                 width={65}
                                                 height={65}
-                                                src={`/uploads/${item.image}`}
+                                                src={item.image.url}
                                                 alt={item.name}
                                                 className="object-contain rounded-md border"
                                             />

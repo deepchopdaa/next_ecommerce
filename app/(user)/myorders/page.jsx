@@ -84,7 +84,7 @@ export default function MyOrders() {
                                             className="flex gap-4 items-center border-b pb-3"
                                         >
                                             <Image
-                                                src={`/uploads/${item.image}`} // Relative to public/
+                                                src={item?.image?.url} // Relative to public/
                                                 alt={item.name}
                                                 width={80}
                                                 height={80}

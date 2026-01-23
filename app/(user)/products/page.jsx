@@ -91,10 +91,11 @@ export default function ProductList() {
                                                 <div className="w-full p-5 h-[240px] flex justify-center items-center bg-white rounded-lg">
                                                     {product?.image ? (
                                                         <Image
-                                                            src={`/uploads/${product.image}`}
+                                                            src={product.image.url}
                                                             alt={product.name}
                                                             width={345}
                                                             height={240}
+                                                            className="object-contain w-full h-[240px]"
                                                         />
                                                     ) : (
                                                         <span>No Image</span>

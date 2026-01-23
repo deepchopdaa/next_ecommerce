@@ -1,3 +1,4 @@
+import "@/models";
 import { connectDB } from "@/lib/db";
 import Product from "@/models/product";
 import mongoose from "mongoose";

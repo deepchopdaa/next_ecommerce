@@ -39,6 +39,6 @@ const branchSchema = new mongoose.Schema({
         default: false
     }
 }, { timestamps: true });
+const Branch = mongoose.models.Branch || mongoose.model("Branch", branchSchema);
 
-const User = mongoose.models.Branch || mongoose.model("Branch", branchSchema);
-export default User;
+export default Branch;

@@ -234,7 +234,7 @@ export async function PUT(req) {
                 }
             }
 
-            image = {   
+            image = {
                 url: uploadResult.secure_url,
                 public_id: uploadResult.public_id,
             };

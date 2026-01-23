@@ -42,7 +42,7 @@ const CartPage = () => {
                                     <TableRow key={item._id}>
                                         <TableCell>
                                             <div className="flex items-center gap-4">
-                                                <Image width={65} height={65} src={`/uploads/${item.image}`} alt={item.name}
+                                                <Image width={65} height={65} src={item?.image?.url} alt={item.name}
                                                     className="object-contain rounded-md border" />
                                                 <div>
                                                     <h3 className="font-semibold text-lg">{item.name}</h3>

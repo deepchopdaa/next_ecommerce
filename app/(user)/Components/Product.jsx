@@ -30,7 +30,7 @@ const page = () => {
                             {/* Product Image */}
                             <div className="w-full h-[240px] flex justify-center items-center bg-white rounded-lg overflow-hidden">
                                 <Image
-                                    src={`/uploads/${product?.image}`}
+                                    src={product?.image.url}
                                     alt={product?.name}
                                     width={345}
                                     height={240}

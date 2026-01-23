@@ -85,7 +85,7 @@ export default async function Page({ params }) {
             <div className="lg:flex w-full">
                 <Image
                     alt={product?.name}
-                    src={product?.image}
+                    src={product?.image.url}
                     width={500}
                     height={500}
                     className="object-contain mx-auto mt-10"

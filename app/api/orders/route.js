@@ -43,7 +43,7 @@ export async function POST(req) {
                 throw new Error("Product out of stock");
             }
 
-            itemsPrice += product.price * item.qty;
+            itemsPrice += product.discountPrice * item.qty;
 
             validatedItems.push({
                 product: product._id,
