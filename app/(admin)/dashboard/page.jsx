@@ -17,7 +17,7 @@ import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
 export default function SellerListPage() {
     const [sellers, setSellers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [token, setToken] = useState(null);
+
 
     const [snack, setSnack] = useState({
         open: false,
@@ -25,15 +25,12 @@ export default function SellerListPage() {
         severity: "success",
     });
 
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
 
     useEffect(() => {
         const fetchSellers = async () => {
             try {
-                const data = await getsellerList(token)
+                const data = await getsellerList()
                 setSellers(data.data);
             } catch (error) {
                 setSnack({

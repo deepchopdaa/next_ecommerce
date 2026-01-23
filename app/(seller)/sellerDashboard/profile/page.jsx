@@ -32,11 +32,11 @@ export default function SellerProfile({ params }) {
         message: "",
         severity: "success",
     });
-    const [token, setToken] = useState(null);
+
     useEffect(() => {
         const fetchSellerProfile = async () => {
             try {
-                const res = await getSellerProfile(token)
+                const res = await getSellerProfile()
                 setData(res?.data);
             } catch (err) {
                 setError(err.message);
@@ -53,10 +53,7 @@ export default function SellerProfile({ params }) {
         fetchSellerProfile();
     }, [branch]);
 
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
 
     if (loading) {
         return (
@@ -76,7 +73,7 @@ export default function SellerProfile({ params }) {
 
     const handleDelete = async (id) => {
         try {
-            const res = await deleteSellerBranch({ id, token })
+            const res = await deleteSellerBranch({ id })
             setSnack({
                 open: true,
                 message: "Branch Deleted !",
@@ -97,7 +94,7 @@ export default function SellerProfile({ params }) {
 
         const payload = { sellerId: seller?._id, branchId: branchId }
         try {
-            const res = await primarySellerBranch({ payload, token })
+            const res = await primarySellerBranch({ payload })
             setBranch(res)
             setSnack({
                 open: true,

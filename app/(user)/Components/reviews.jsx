@@ -10,7 +10,7 @@ export default function ReviewForm({ reviews, productId }) {
     const [loading, setLoading] = useState(false);
 
 
-    const [token, setToken] = useState(null);
+
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -30,15 +30,12 @@ export default function ReviewForm({ reviews, productId }) {
         },
     });
 
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
 
     const onSubmit = async (values) => {
         try {
 
-            const res = await addReview({ values, productId, token })
+            const res = await addReview({ values, productId })
             reset();
 
             setLoading(false);

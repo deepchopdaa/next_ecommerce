@@ -20,7 +20,7 @@ export default function UserProfilePage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [userId, setuserId] = useState(null)
-    const [token, setToken] = useState(null);
+
 
     const {
         register,
@@ -35,10 +35,7 @@ export default function UserProfilePage() {
         severity: "success",
     });
 
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
 
     // 🔹 Fetch user
     useEffect(() => {

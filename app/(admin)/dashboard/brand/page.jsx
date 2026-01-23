@@ -30,7 +30,7 @@ export default function BrandPage() {
     const [editId, setEditId] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const [token, setToken] = useState(null);
+
 
     const [snack, setSnack] = useState({
         open: false,
@@ -56,13 +56,10 @@ export default function BrandPage() {
 
     /* Getting Brand */
     const fetchBrands = async () => {
-        const data = await getBrands(token)
+        const data = await getBrands()
         setBrands(data);
     };
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
     useEffect(() => {
         fetchBrands();
     }, []);
@@ -71,7 +68,7 @@ export default function BrandPage() {
     const onCreate = async (data) => {
         setLoading(true);
         try {
-            const res = await createBrand({ data, token })
+            const res = await createBrand({ data })
             reset();
             setSnack({ open: true, message: "Brand added successfully!", severity: "success" });
         } catch (error) {
@@ -85,7 +82,7 @@ export default function BrandPage() {
     /* for Delete Brand */
     const handleDelete = async (id) => {
         try {
-            const res = await deleteBrand({ id, token })
+            const res = await deleteBrand({ id })
             setSnack({ open: true, message: "Brand deleted!", severity: "success" });
         } catch (error) {
             setSnack({ open: true, message: error.message || "Brand not Deleted", severity: "error" });
@@ -104,7 +101,7 @@ export default function BrandPage() {
     /* For Brand Update */
     const onUpdate = async (data) => {
         try {
-            const res = await updateBrand({ editId, data, token })
+            const res = await updateBrand({ editId, data })
             setEditOpen(false);
             setSnack({ open: true, message: "Brand updated!", severity: "success" });
 

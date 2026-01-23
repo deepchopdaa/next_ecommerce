@@ -17,7 +17,7 @@ const page = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         shouldUseNativeValidation: true,
     })
-    const [token, setToken] = useState(null);
+
 
     const [snack, setSnack] = useState({
         open: false,
@@ -55,7 +55,8 @@ const page = () => {
         };
 
         try {
-            const res = await createOrder({ submitdata, token })
+            const res = await createOrder({ submitdata })
+            console.log(res, "responce from the create order api")
             setLoading(false);
             setSnack({
                 open: true,
@@ -78,10 +79,7 @@ const page = () => {
     };
 
 
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
 
 
     return (

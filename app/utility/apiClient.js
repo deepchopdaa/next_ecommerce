@@ -1,8 +1,13 @@
 export async function apiClient(url, options = {}) {
+    const token =
+        typeof window !== "undefined"
+            ? localStorage.getItem("token")
+            : null;
     const res = await fetch(url, {
         headers: {
             "Content-Type": "application/json",
             ...options.headers,
+            ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
         credentials: "include",
         ...options,
@@ -27,7 +32,6 @@ export async function apiClient(url, options = {}) {
     console.log(data, "data of the responce")
 
     if (!res.ok) {
-
         throw new Error(data?.message || "Something went wrong");
     }
 

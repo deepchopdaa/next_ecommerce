@@ -35,7 +35,7 @@ export async function middleware(req) {
         });
 
     } catch (error) {
-        console.log("middleware error:", error.constructor);
+        console.log("middleware error:", error.message);
         return NextResponse.json({ message: error.message }, { status: 409 });
     }
 }

@@ -69,7 +69,7 @@ export default function ProductTable() {
     const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [username, setuserName] = useState(null);
-    const [token, setToken] = useState(null);
+
 
     const [updateid, setUpdateid] = useState(null);
     const [categories, setCategories] = useState([]);
@@ -95,27 +95,24 @@ export default function ProductTable() {
         e.preventDefault();
         console.log(e)
     }
-    useEffect(() => {
-        const t = localStorage.getItem("token");
-        setToken(t);
-    }, []);
+
 
     const userDatail = async () => {
-        const userData = await getUserDetail(token)
+        const userData = await getUserDetail()
         setuserName(userData.user.name);
         console.log(userData.user.name, "user Name")
         console.log(userData, "user detail in dashboard");
     }
 
     const GetProducts = async () => {
-        const productData = await getProducts(token)
+        const productData = await getProducts()
         setProducts(productData.products);
         console.log(productData, "product data in dashboard");
     }
 
     const fetchCategories = async () => {
         try {
-            const data = await getCategory(token)
+            const data = await getCategory()
             setCategories(data);
         } catch (error) {
             console.log("Category fetch error:", error);
@@ -124,7 +121,7 @@ export default function ProductTable() {
 
     const fetchBranchs = async () => {
         try {
-            const data = await getSellerProfile(token)
+            const data = await getSellerProfile()
             console.log("Branches of Seller", data?.data?.branches)
             setBranch(data?.data?.branches);
         } catch (error) {
@@ -134,7 +131,7 @@ export default function ProductTable() {
 
     const fetchBrands = async () => {
         try {
-            const data = await getBrands(token)
+            const data = await getBrands()
             setBrands(data);
         } catch (error) {
             console.log("Brands fetch error:", error);
@@ -233,7 +230,7 @@ export default function ProductTable() {
 
         const method = editMode ? "PUT" : "POST";
 
-        const res = await createAndUpdateProducts({ url, method, formData, token });
+        const res = await createAndUpdateProducts({ url, method, formData });
 
         console.log(res, 'response after saving product');
 
@@ -253,7 +250,7 @@ export default function ProductTable() {
     };
 
     const handleDelete = async () => {
-        const res = await deleteProducts({ deleteId, token })
+        const res = await deleteProducts({ deleteId })
 
         if (res.ok) {
             setSnack({
