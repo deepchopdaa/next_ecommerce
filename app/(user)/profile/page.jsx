@@ -20,7 +20,10 @@ export default function UserProfilePage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [userId, setuserId] = useState(null)
-
+    const token =
+        typeof window !== "undefined"
+            ? localStorage.getItem("token")
+            : null;
 
     const {
         register,
