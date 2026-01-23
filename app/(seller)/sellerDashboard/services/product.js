@@ -26,7 +26,6 @@ export function getBrands() {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-
         }
     });
 }
@@ -37,7 +36,6 @@ export function getProducts() {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-
         }
     });
 }
@@ -46,7 +44,9 @@ export function createAndUpdateProducts({ url, method, formData }) {
     return apiClient(`${url}`, {
         method: method,
         body: formData,
-
+        headers: {
+            "Content-Type": "application/json",
+        }
     });
 }
 
@@ -55,7 +55,6 @@ export function deleteProducts({ deleteId }) {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-
         }
     });
 }
