@@ -290,7 +290,7 @@ export default function ProductTable() {
                 </Button>
                 <br></br>
                 {
-                    products.length > 1 ?
+                    products.length > 0 ?
 
                         < TableContainer component={Paper}>
                             <Table>

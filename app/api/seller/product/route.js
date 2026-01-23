@@ -225,16 +225,16 @@ export async function PUT(req) {
                 ).end(buffer);
             });
 
-            /*   // Delete old image from Cloudinary
-              if (existingProduct.image?.public_id) {
-                  try {
-                      await cloudinary.uploader.destroy(existingProduct.image.public_id);
-                  } catch (err) {
-                      console.warn("Old Cloudinary image delete skipped:", err.message);
-                  }
-              } */
+            // Delete old image from Cloudinary
+            if (existingProduct.image?.public_id) {
+                try {
+                    await cloudinary.uploader.destroy(existingProduct.image.public_id);
+                } catch (err) {
+                    console.warn("Old Cloudinary image delete skipped:", err.message);
+                }
+            }
 
-            image = {
+            image = {   
                 url: uploadResult.secure_url,
                 public_id: uploadResult.public_id,
             };

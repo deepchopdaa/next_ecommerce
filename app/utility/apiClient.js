@@ -3,9 +3,10 @@ export async function apiClient(url, options = {}) {
         typeof window !== "undefined"
             ? localStorage.getItem("token")
             : null;
+    console.log("token ,", token)
     const res = await fetch(url, {
         headers: {
-            "Content-Type": "application/json",
+            /*  "Content-Type": "application/json", */
             ...options.headers,
             ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
