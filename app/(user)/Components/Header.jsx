@@ -196,21 +196,24 @@ export default function Navbar() {
                             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                             transformOrigin={{ vertical: "top", horizontal: "right" }}
                         >
-                            {!token ? (
-                                <MenuItem
-                                    onClick={() => {
-                                        handleAccountClose();
-                                        window.location.href = "/login";
-                                    }}
-                                >
-                                    <ListItemIcon>
-                                        <Login fontSize="small" />
-                                    </ListItemIcon>
-                                    Login
-                                </MenuItem>
-                            ) : (
-                                <>
+                            {!token
+                                ? [
                                     <MenuItem
+                                        key="login"
+                                        onClick={() => {
+                                            handleAccountClose();
+                                            window.location.href = "/login";
+                                        }}
+                                    >
+                                        <ListItemIcon>
+                                            <Login fontSize="small" />
+                                        </ListItemIcon>
+                                        Login
+                                    </MenuItem>,
+                                ]
+                                : [
+                                    <MenuItem
+                                        key="profile"
                                         onClick={() => {
                                             handleAccountClose();
                                             window.location.href = "/profile";
@@ -220,9 +223,10 @@ export default function Navbar() {
                                             <Person fontSize="small" />
                                         </ListItemIcon>
                                         Profile
-                                    </MenuItem>
+                                    </MenuItem>,
 
                                     <MenuItem
+                                        key="orders"
                                         onClick={() => {
                                             handleAccountClose();
                                             window.location.href = "/myorders";
@@ -232,17 +236,17 @@ export default function Navbar() {
                                             <ShoppingBag fontSize="small" />
                                         </ListItemIcon>
                                         My Orders
-                                    </MenuItem>
+                                    </MenuItem>,
 
-                                    <MenuItem onClick={handleLogout}>
+                                    <MenuItem key="logout" onClick={handleLogout}>
                                         <ListItemIcon>
                                             <Logout fontSize="small" />
                                         </ListItemIcon>
                                         Logout
-                                    </MenuItem>
-                                </>
-                            )}
+                                    </MenuItem>,
+                                ]}
                         </Menu>
+
 
 
                         {/* Cart Button */}

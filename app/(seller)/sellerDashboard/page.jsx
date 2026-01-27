@@ -214,7 +214,7 @@ export default function ProductTable() {
         formData.append("discountPrice", data.discountPrice);
         formData.append("description", data.description);
         formData.append("stock", data.stock);
-
+        console.log(form.images, "form images")
         if (form.images) {
             formData.append("image", form.images);
         }
@@ -250,16 +250,16 @@ export default function ProductTable() {
     };
 
     const handleDelete = async () => {
-        const res = await deleteProducts({ deleteId })
+        try {
+            await deleteProducts({ deleteId })
 
-        if (res.ok) {
             setSnack({
                 open: true,
                 message: "Product deleted successfully!",
                 severity: "success",
             });
             setProducts(products.filter((p) => p._id !== deleteId));
-        } else {
+        } catch (e) {
             setSnack({
                 open: true,
                 message: "Failed to delete product!",

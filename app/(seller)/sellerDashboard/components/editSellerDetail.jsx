@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { updateSellerBranch } from "../services/profile";
 import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
 
-export default function EditSellerModal({ open, handleClose, seller }) {
+export default function EditSellerModal({ open, handleClose, seller, fetchSellerProfile }) {
 
     const [snack, setSnack] = useState({
         open: false,
@@ -51,6 +51,7 @@ export default function EditSellerModal({ open, handleClose, seller }) {
     const onSubmit = async (data) => {
         try {
             await updateSellerBranch({ data, seller })
+            await fetchSellerProfile()
             handleClose()
             setSnack({
                 open: true,

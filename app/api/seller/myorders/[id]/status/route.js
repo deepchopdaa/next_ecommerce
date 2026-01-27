@@ -19,7 +19,7 @@ export async function PATCH(req, { params }) {
 
         const { id } = await params;
         const { orderStatus } = await req.json();
-
+        console.log(orderStatus, "order Status")
         // Validate status
         if (!ORDER_STATUSES.includes(orderStatus)) {
             return NextResponse.json(

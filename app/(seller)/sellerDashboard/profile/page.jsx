@@ -33,23 +33,23 @@ export default function SellerProfile({ params }) {
         severity: "success",
     });
 
-    useEffect(() => {
-        const fetchSellerProfile = async () => {
-            try {
-                const res = await getSellerProfile()
-                setData(res?.data);
-            } catch (err) {
-                setError(err.message);
-                setSnack({
-                    open: true,
-                    message: "Seller Profile Fetch failed !",
-                    severity: "error",
-                });
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchSellerProfile = async () => {
+        try {
+            const res = await getSellerProfile()
+            setData(res?.data);
+        } catch (err) {
+            setError(err.message);
+            setSnack({
+                open: true,
+                message: "Seller Profile Fetch failed !",
+                severity: "error",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchSellerProfile();
     }, [branch]);
 
@@ -231,11 +231,13 @@ export default function SellerProfile({ params }) {
                     open={open}
                     handleClose={() => setOpen(false)}
                     sellerId={seller._id}
+                    fetchSellerProfile={fetchSellerProfile}
                 />
                 <EditSellerModal
                     open={openedit}
                     handleClose={() => setOpenedit(false)}
                     seller={seller}
+                    fetchSellerProfile={fetchSellerProfile}
                 />
 
             </div>

@@ -9,8 +9,6 @@ import { addReview } from "../services/productReviews";
 export default function ReviewForm({ reviews, productId }) {
     const [loading, setLoading] = useState(false);
 
-
-
     const [snack, setSnack] = useState({
         open: false,
         message: "",

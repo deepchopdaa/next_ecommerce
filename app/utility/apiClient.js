@@ -1,9 +1,11 @@
 export async function apiClient(url, options = {}) {
+    
     const token =
         typeof window !== "undefined"
             ? localStorage.getItem("token")
             : null;
     console.log("token ,", token)
+
     const res = await fetch(url, {
         headers: {
             /*  "Content-Type": "application/json", */

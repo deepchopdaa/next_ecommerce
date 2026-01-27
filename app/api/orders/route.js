@@ -50,13 +50,13 @@ export async function POST(req) {
                 name: product.name,
                 image: product?.image || "",
                 qty: item.qty,
-                price: product.price,
+                price: product.discountPrice,
                 sellerId: product.sellerId,
             });
         }
 
         const shippingPrice = itemsPrice > 1000 ? 0 : 50;
-        const taxPrice = Math.round(itemsPrice * 0.18);
+        const taxPrice = Math.round(itemsPrice * 0.10);
         const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
         const order = await Order.create({

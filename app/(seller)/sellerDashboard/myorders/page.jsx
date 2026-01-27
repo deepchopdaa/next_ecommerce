@@ -91,8 +91,7 @@ export default function SellerOrders() {
 
         try {
             setUpdating(true);
-
-            const res = await updateOrderStatus({ selectedOrder, orderStatus: newStatus })
+            await updateOrderStatus({ selectedOrder, orderStatus: newStatus })
 
             // Update UI locally (no refetch needed)
             setOrders((prev) =>
@@ -165,7 +164,7 @@ export default function SellerOrders() {
                                         className="flex items-center gap-4"
                                     >
                                         <Image
-                                            src={`/uploads/${item.image}`}
+                                            src={item?.image?.url}
                                             alt={item.name}
                                             width={80}
                                             height={80}

@@ -3,20 +3,12 @@
 import { useEffect, useState } from "react";
 import { Grid, Box } from "@mui/material";
 import SellerCard from "./SellerCard";
-
-import { fetchCategories, fetchBrands } from "../../store/slices/categoryBrandSlice";
 import { useDispatch } from "react-redux";
 import { getSellerList } from "../services/sellerListService";
 export default function HomePage() {
     const [sellers, setSellers] = useState([]);
     /* api Calling for filter Sidebar in Products */
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchCategories());
-        dispatch(fetchBrands());
-    }, [dispatch]);
-
 
     useEffect(() => {
         const fetchSeller = async () => {

@@ -10,7 +10,7 @@ import {
     FormControlLabel,
 } from "@mui/material";
 import { useState } from "react";
-import { createSellerBranch } from "../services/profile";
+import { createSellerBranch, getSellerProfile } from "../services/profile";
 import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
 
 const style = {
@@ -25,10 +25,7 @@ const style = {
     p: 4,
 };
 
-export default function CreateBranchModal({ open, handleClose, sellerId }) {
-
-
-
+export default function CreateBranchModal({ open, handleClose, sellerId, fetchSellerProfile }) {
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -60,7 +57,7 @@ export default function CreateBranchModal({ open, handleClose, sellerId }) {
 
         try {
             const data = await createSellerBranch({ sellerId, form })
-
+            await fetchSellerProfile()
             handleClose();
             setForm({
                 branchName: "",

@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getMyOrders } from "../services/profile";
 import SnackbarSimple from "../Components/SnakeBar";
+import OrderStatusStepper from "../Components/OrderStatusStepper";
 export default function MyOrders() {
 
     const [orders, setOrders] = useState([]);
@@ -59,18 +60,7 @@ export default function MyOrders() {
                                             Order ID: #{order._id.slice(-6)}
                                         </span>
 
-                                        <Chip
-                                            label={order.orderStatus}
-                                            color={
-                                                order.orderStatus === "Delivered"
-                                                    ? "success"
-                                                    : order.orderStatus === "Cancelled"
-                                                        ? "error"
-                                                        : "warning"
-                                            }
-                                            className="!text-white"
-                                            sx={{ borderRadius: "8px", px: 1 }}
-                                        />
+                                        <OrderStatusStepper status={order.orderStatus} />
                                     </div>
                                 }
                             />
@@ -84,12 +74,13 @@ export default function MyOrders() {
                                             className="flex gap-4 items-center border-b pb-3"
                                         >
                                             <Image
-                                                src={item?.image?.url} // Relative to public/
-                                                alt={item.name}
+                                                src={item?.image?.url}
+                                                alt={item?.name || "product"}
                                                 width={80}
                                                 height={80}
-                                                className="rounded object-cover"
+                                                className="object-contain rounded-md border"
                                             />
+
 
                                             <div className="flex-1">
                                                 <h2 className="font-medium text-lg">{item.name}</h2>

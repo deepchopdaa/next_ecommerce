@@ -204,10 +204,11 @@ export async function PUT(req) {
         const stock = formData.get("stock");
         const file = formData.get("image");
 
-        let image = existingProduct.image;
+        let image = existingProduct.image.url;
+        console.log(image, "existing product image")
 
-        // If new image uploaded
-        if (file) {
+
+        if (file?.type) {
             const bytes = await file.arrayBuffer();
             const buffer = Buffer.from(bytes);
 

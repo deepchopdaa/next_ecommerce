@@ -3,11 +3,18 @@
 import React, { useEffect, useCallback } from "react";
 import debounce from "lodash.debounce";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories, fetchBrands } from "../../store/slices/categoryBrandSlice";
+
 import { fetchProducts, setFilter } from "@/app/store/slices/productSlice";
 import Slider from "@mui/material/Slider";
 
 export default function ProductFilter() {
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCategories());
+        dispatch(fetchBrands());
+    }, [dispatch]);
 
     const filters = useSelector((state) => state.products.filters);
     const { categories, brands, loading } = useSelector(

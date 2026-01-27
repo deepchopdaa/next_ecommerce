@@ -16,7 +16,16 @@ const orderSchema = new mongoose.Schema(
                     required: true,
                 },
                 name: { type: String, required: true },
-                image: { type: String, required: true },
+                image: {
+                    url: {
+                        type: String,
+                        required: true
+                    },
+                    public_id: {
+                        type: String,
+                        required: true
+                    }
+                },
                 qty: { type: Number, required: true },
                 price: { type: Number, required: true },
                 sellerId: {
@@ -52,14 +61,14 @@ const orderSchema = new mongoose.Schema(
         orderStatus: {
             type: String,
             enum: [
-                "Pending",
-                "Confirmed",
-                "Packed",
-                "Shipped",
-                "Out for Delivery",
-                "Delivered",
-                "Cancelled",
-                "Returned",
+                    "Pending",
+                    "Confirmed",
+                    "Packed",
+                    "Shipped",
+                    "Out for Delivery",
+                    "Delivered",
+                    "Cancelled",
+                    "Returned",
             ],
             default: "Pending",
         },
