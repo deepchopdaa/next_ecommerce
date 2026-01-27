@@ -9,7 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import CartButton from "../Components/CartButton";
 import ProductFilter from "../Components/FilterSidebar";
 import { fetchProducts } from "@/app/store/slices/productSlice";
-import CircularProgress from '@mui/material/CircularProgress';
+
 import ProductChatbot from "../Components/ChatBot";
 export default function ProductList() {
     const dispatch = useDispatch();
@@ -47,10 +47,10 @@ export default function ProductList() {
 
                 {/* Product List */}
                 <div className="flex-1 ml-10">
-                    {loading && products.length === 0 ? (
-                        <h1 className="text-center font-bold text-4xl mt-10">
-                            Loading...
-                        </h1>
+                    {products.length === 0 ? (
+                        <h2 className="text-center font-bold text-4xl mt-10">
+                            Loading ...
+                        </h2>
                     ) : (
                         <InfiniteScroll
                             dataLength={visibleProducts.length}

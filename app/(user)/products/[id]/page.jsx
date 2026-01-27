@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { connectDB } from "@/lib/db";
 import Product from "@/models/product";
 import ReviewForm from "../../Components/reviews";
+import ProductChatbot from "../../Components/ChatBot";
 export const revalidate = 60;
 export async function generateStaticParams() {
     await connectDB();
@@ -98,7 +99,7 @@ export default async function Page({ params }) {
 
     return (
         <>
-            <div className="lg:flex w-full">
+            <div className="lg:flex w-full px-4">
                 <Image
                     alt={product?.name}
                     src={product?.image.url}
@@ -149,6 +150,7 @@ export default async function Page({ params }) {
             <Suspense fallback={<h1 className="text-center mt-10 font-sbold text-3xl">Products Loading ...</h1>}>
                 <PopulorProduct products={SimilerProduct} />
             </Suspense>
+            <ProductChatbot />
         </>
     );
 }
