@@ -58,7 +58,7 @@ export default function ReviewForm({ reviews, productId }) {
         <>
             <Box sx={{ mt: 4, mx: 10 }}>
 
-                <Typography variant="h5" sx={{ mb: 2, px: 10 }}>Write a Review</Typography>
+                <Typography variant="h5" sx={{ mb: 2 }}>Write a Review</Typography>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
 
