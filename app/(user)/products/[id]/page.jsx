@@ -27,6 +27,22 @@ export default async function Page({ params }) {
             return null;
         }
     }
+
+    async function fetchSimilerProduct() {
+        try {
+            await connectDB();
+            const product = await Product.findById(id);
+            const similarProducts = await Product.find({
+                _id: { $ne: product._id },
+                category: product.category,
+            }).limit(4);
+            return JSON.parse(JSON.stringify(similarProducts));
+        } catch (error) {
+            console.log("Error fetching product:", error);
+            return null;
+        }
+    }
+
     async function fetchReviews() {
         try {
             await connectDB();
@@ -67,7 +83,7 @@ export default async function Page({ params }) {
 
     const product = await fetchProduct();
     const { reviews, avgRating, reviewCount } = await fetchReviews();
-
+    const SimilerProduct = await fetchSimilerProduct()
     const price = product.price;
     const discountPrice = product.discountPrice;
 
@@ -131,7 +147,7 @@ export default async function Page({ params }) {
             </Suspense>
 
             <Suspense fallback={<h1 className="text-center mt-10 font-sbold text-3xl">Products Loading ...</h1>}>
-                <PopulorProduct />
+                <PopulorProduct products={SimilerProduct} />
             </Suspense>
         </>
     );

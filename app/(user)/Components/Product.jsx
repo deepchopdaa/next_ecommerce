@@ -1,29 +1,18 @@
 "use client"
 import Image from 'next/image';
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux"
+import React from 'react'
 import CartButton from '@/app/(user)/Components/CartButton';
 import { useRouter } from "next/navigation";
-import { fetchProducts } from '@/app/store/slices/productSlice';
-
-const page = () => {
-
-    const dispatch = useDispatch();
-    const router = useRouter();
-
-    const { items, loading, error } = useSelector((state) => state.products);
-
-    useEffect(() => {
-        dispatch(fetchProducts());
-    }, []);
 
 
-    if (error) return <h2>Error: {error}</h2>;
+const page = ({ products }) => {
+
+    const router = useRouter()
 
     return (
         <>
             <div className="ml-5 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 mt-10">
-                {items?.products?.slice(0, 4).map((product) => (
+                {products?.slice(0, 4).map((product) => (
                     <div key={product?._id} className="shadow-lg max-w-[345px]">
                         <div onClick={() => router.push(`/products/${product?._id}`)}>
 
@@ -52,7 +41,7 @@ const page = () => {
                                 </p>
 
                                 <p className="text-sm mt-1">
-                                    ⭐ {product.rating} ({product.reviews} reviews)
+                                    ⭐ {product.rating} ({product.reviews || 0} reviews)
                                 </p>
                             </div>
                         </div>
