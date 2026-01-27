@@ -37,6 +37,12 @@ export default function ProductList() {
     const products = items?.products || [];
     const visibleProducts = products.slice(0, visibleCount);
 
+    if (loading) {
+        <h2 className="text-center font-bold text-4xl mt-10">
+            Loading ...
+        </h2>
+    }
+
     return (
         <>
             <div className="flex">

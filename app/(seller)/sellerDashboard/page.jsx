@@ -69,6 +69,7 @@ export default function ProductTable() {
     const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [username, setuserName] = useState(null);
+    const [loading, setLoading] = useState(true)
 
 
     const [updateid, setUpdateid] = useState(null);
@@ -105,6 +106,15 @@ export default function ProductTable() {
     }
 
     const GetProducts = async () => {
+        try {
+            const productData = await getProducts()
+            setProducts(productData.products);
+            console.log(productData, "product data in dashboard");
+        } catch (error) {
+            console.log("Category fetch error:", error.message);
+        } finally {
+            setLoading(false)
+        }
         const productData = await getProducts()
         setProducts(productData.products);
         console.log(productData, "product data in dashboard");
@@ -215,6 +225,7 @@ export default function ProductTable() {
         formData.append("description", data.description);
         formData.append("stock", data.stock);
         console.log(form.images, "form images")
+
         if (form.images) {
             formData.append("image", form.images);
         }
@@ -251,6 +262,7 @@ export default function ProductTable() {
 
     const handleDelete = async () => {
         try {
+
             await deleteProducts({ deleteId })
 
             setSnack({
@@ -268,6 +280,10 @@ export default function ProductTable() {
         }
         setDeleteConfirm(false);
     };
+
+    if (loading) {
+        return <Typography variant="h6" color="secondary" sx={{ textAlign: "center", mt: 5 }}>Loading ...</Typography>;
+    }
 
     return (
         <>

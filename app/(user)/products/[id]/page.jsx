@@ -150,6 +150,7 @@ export default async function Page({ params }) {
             <Suspense fallback={<h1 className="text-center mt-10 font-sbold text-3xl">Products Loading ...</h1>}>
                 <PopulorProduct products={SimilerProduct} />
             </Suspense>
+
             <ProductChatbot />
         </>
     );
