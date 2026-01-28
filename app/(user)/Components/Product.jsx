@@ -11,19 +11,19 @@ const page = ({ products }) => {
 
     return (
         <>
-            <div className="ml-5 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4 mt-10">
+            <div className="ml-5 mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 px-4 mt-10">
                 {products?.slice(0, 4).map((product) => (
-                    <div key={product?._id} className="shadow-lg max-w-[345px]">
+                    <div key={product?._id} className="shadow-lg">
                         <div onClick={() => router.push(`/products/${product?._id}`)}>
 
                             {/* Product Image */}
-                            <div className="w-full h-[240px] flex justify-center items-center bg-white rounded-lg overflow-hidden">
+                            <div className="w-full h-60 flex justify-center items-center bg-white rounded-lg overflow-hidden">
                                 <Image
                                     src={product?.image.url}
                                     alt={product?.name}
                                     width={345}
                                     height={240}
-                                    className="object-contain w-full h-[240px]"
+                                    className="object-contain w-full h-60"
                                 />
                             </div>
                             <div className="p-4">
@@ -46,7 +46,7 @@ const page = ({ products }) => {
                             </div>
                         </div>
                         <div className='mb-4'>
-                            <div className="px-2 flex text-nowrap gap-2">
+                            <div className="px-2 ">
                                 <CartButton product={product} />
                             </div>
                         </div>

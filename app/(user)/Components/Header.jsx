@@ -151,7 +151,7 @@ export default function Navbar() {
                     </Box>
 
                     {/* Center: Search Bar */}
-                    <Box className="flex bg-gray-100 px-3 py-1 rounded-lg items-center">
+                    <Box className="flex bg-gray-100 px-2 py-1 rounded-lg items-center">
                         <SearchIcon className="text-gray-600" />
                         <InputBase
                             placeholder="Search products..."
@@ -161,7 +161,7 @@ export default function Navbar() {
                                     setFilter({ key: "search", value: e.target.value })
                                 )
                             }
-                            className="ml-2 w-48 md:w-64 lg:w-92 xl:w-128 "
+                            className="ml-2 w-32 sm:w-48 md:w-64 lg:w-92 xl:w-[612px]"
                         />
                     </Box>
 
@@ -263,10 +263,23 @@ export default function Navbar() {
                     </Box>
 
                     {/* Mobile Search + Icons */}
-                    <Box className="md:hidden flex items-center gap-3">
-                        <IconButton className="text-gray-900">
-                            <SearchIcon />
+                    <Box className="md:hidden flex items-center gap-1">
+                        <IconButton
+                            onClick={handleAccountClick}
+                            className="text-gray-700 hover:text-black"
+                        >
+                            {token ? <AccountCircle /> : <AccountCircleOutlined />}
                         </IconButton>
+
+                        <Link href="/wishlist">
+                            <IconButton>
+                                <Badge badgeContent={wishlistItem?.length ?? 0} color="error">
+                                    {pathname.startsWith("/wishlist")
+                                        ? <FavoriteIcon />
+                                        : <FavoriteBorderOutlinedIcon />}
+                                </Badge>
+                            </IconButton>
+                        </Link>
 
                         <Link href="/cart">
                             <IconButton>

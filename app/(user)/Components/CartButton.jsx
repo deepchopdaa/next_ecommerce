@@ -31,16 +31,32 @@ const CartButton = ({ product }) => {
     }
 
     return (
-        <div className='flex gap-4'>
+        <div className='flex gap-4 lg:gap-4 2xl:gap-2  justify-center'>
 
             <Button
                 size="small"
                 onClick={() => handleClick(product)}
                 endIcon={<SendIcon />}
                 color="success"
-                loading={loading == product?._id}
+                loading={loading === product?._id}
                 loadingPosition="end"
                 variant="contained"
+                sx={{
+                    fontSize: {
+                        xs: "0.7rem",
+                        sm: "0.75rem",
+                        md: "0.8rem",
+                        lg: "0.85rem",
+                    },
+                    padding: {
+                        xs: "4px 8px",
+                        sm: "6px 10px",
+                        md: "6px 12px",
+                    },
+                    minWidth: "auto",
+                    textTransform: "none",
+                    whiteSpace: "nowrap",
+                }}
             >
                 Add to Cart
             </Button>
@@ -50,12 +66,29 @@ const CartButton = ({ product }) => {
                 onClick={() => handlewishlist(product)}
                 endIcon={<SendIcon />}
                 color="info"
-                loading={loading1 == product?._id}
+                loading={loading1 === product?._id}
                 loadingPosition="end"
                 variant="contained"
+                sx={{
+                    fontSize: {
+                        xs: "0.7rem",
+                        sm: "0.75rem",
+                        md: "0.8rem",
+                        lg: "0.85rem",
+                    },
+                    padding: {
+                        xs: "4px 8px",
+                        sm: "6px 10px",
+                        md: "6px 12px",
+                    },
+                    minWidth: "auto",
+                    textTransform: "none",
+                    whiteSpace: "nowrap",
+                }}
             >
                 Add to Wishlist
             </Button>
+
         </div>
     )
 }
