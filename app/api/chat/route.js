@@ -18,7 +18,7 @@ export async function POST(req) {
         const productContext = products
             .map(
                 (p) =>
-                    `Product: ${p.name}, Category: ${p.category}, Brand: ${p.brand}, Price: ₹${p.price}`
+                    `Product: ${p.name}, Category: ${p.category}, Brand: ${p.brand}, Price: ₹${p.price},DiscountPrice:₹${p?.discountPrice} , Seller:${p?.sellerId}, Branch:${p?.branch}`
             )
             .join("\n");
 

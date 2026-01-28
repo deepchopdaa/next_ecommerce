@@ -108,7 +108,7 @@ export default async function Page({ params }) {
                     className="object-contain mx-auto mt-10"
                 />
 
-                <div className="ml-10 mt-10">
+                <div className="lg:ml-10 mt-10">
                     <h1 className="text-3xl font-bold mt-10">
                         {product?.name}
                     </h1>

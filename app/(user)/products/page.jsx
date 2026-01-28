@@ -21,7 +21,7 @@ export default function ProductList() {
         (state) => state.products
     );
 
-    const ITEMS_PER_LOAD = 6;
+    const ITEMS_PER_LOAD = 8;
     const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD);
 
     useEffect(() => {
@@ -48,23 +48,22 @@ export default function ProductList() {
     return (
         <>
             <div className="flex">
-                {/* Sidebar */}
+
                 <div
                     className="hidden md:block sticky top-24 h-[calc(100vh-120px)] overflow-y-auto w-[280px]">
                     <ProductFilter />
                 </div>
-                {/* MOBILE FLOATING BUTTON */}
+
                 <button
                     onClick={() => setOpenFilter(true)}
-                    className="lg:hidden fixed bottom-20 left-5 z-20 bg-black text-white p-4 rounded-full shadow-lg"
+                    className="lg:hidden fixed bottom-5 left-5 z-20 bg-black text-white p-4 rounded-full shadow-lg"
                 >
                     <TuneIcon />
                 </button>
 
-                {/* MOBILE SLIDE-IN SIDEBAR */}
                 {openFilter && (
                     <div className="fixed inset-0 z-50 lg:hidden">
-                        {/* Overlay */}
+
                         <div
                             className="absolute inset-0 bg-black/40"
                             onClick={() => setOpenFilter(false)}
@@ -85,7 +84,7 @@ export default function ProductList() {
                 )}
 
                 {/* Product List */}
-                <div className="flex-1 ml-10">
+                <div className="flex-1 md:ml-10">
                     {products.length === 0 ? (
                         <h2 className="text-center font-bold text-4xl mt-10">
                             Loading ...
@@ -105,7 +104,7 @@ export default function ProductList() {
                             }
                         >
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 px-4 mt-10">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 px-4 mt-10 justify-center">
                                 {visibleProducts.map((product) => {
                                     const discountPercent =
                                         product.price > 0

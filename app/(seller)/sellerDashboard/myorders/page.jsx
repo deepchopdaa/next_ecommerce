@@ -50,6 +50,8 @@ export default function SellerOrders() {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [updating, setUpdating] = useState(false)
 
+    let total = 0
+
     const [snack, setSnack] = useState({
         open: false,
         message: "",
@@ -123,6 +125,16 @@ export default function SellerOrders() {
 
     if (!orders.length)
         return <Typography variant="h5" color="secondary" sx={{ textAlign: "center", mt: 5 }}>Not Have Any Orders</Typography>
+
+    if (orders) {
+        orders.map((order) => {
+            total = 0
+            order.orderItems.map((item) => {
+                total += item.price
+            })
+            order.totalPrice = total
+        })
+    }
 
     return (
         <>
