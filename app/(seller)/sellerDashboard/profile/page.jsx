@@ -220,7 +220,7 @@ export default function SellerProfile({ params }) {
                                     <div className="space-y-1 text-sm text-gray-700">
                                         <p>📍 {branch.city}, {branch.state}</p>
                                         <p>🌍 {branch.country} – {branch.pincode}</p>
-                                        <p>🌍 {branch?.contactNo}</p>
+                                        {branch?.contactNo && <p>🌍 {branch?.contactNo}</p>}
                                     </div>
                                 </CardContent>
                             </Card>
