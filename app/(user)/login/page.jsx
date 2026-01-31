@@ -5,7 +5,6 @@ import SnackbarSimple from "../Components/SnakeBar";
 import { loginUser } from "../services/authService";
 import { useForm } from "react-hook-form"
 import {
-    TextField,
     Button,
     Card,
     CardContent,
@@ -14,6 +13,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import StyledTextField from "@/app/components/StyledTextField";
 
 
 export default function LoginForm() {
@@ -124,7 +124,7 @@ export default function LoginForm() {
                         <form onSubmit={handleSubmit(submitform)}>
 
                             <Box mb={2}>
-                                <TextField
+                                <StyledTextField
                                     label="Email"
                                     fullWidth
                                     {...register("email", {
@@ -140,7 +140,7 @@ export default function LoginForm() {
                             </Box>
 
                             <Box mb={2}>
-                                <TextField
+                                <StyledTextField
                                     label="Password"
                                     type="password"
                                     fullWidth

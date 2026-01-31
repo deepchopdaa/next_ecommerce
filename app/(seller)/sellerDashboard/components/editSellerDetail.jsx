@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { updateSellerBranch } from "../services/profile";
 import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
+import StyledTextField from "@/app/components/StyledTextField";
 
 export default function EditSellerModal({ open, handleClose, seller, fetchSellerProfile }) {
 
@@ -77,7 +78,7 @@ export default function EditSellerModal({ open, handleClose, seller, fetchSeller
                         <Stack spacing={2}>
 
                             {/* Seller Account Name */}
-                            <TextField
+                            <StyledTextField
                                 label="Account Name"
                                 fullWidth
                                 {...register("accountName", {
@@ -92,7 +93,7 @@ export default function EditSellerModal({ open, handleClose, seller, fetchSeller
                             />
 
                             {/* User Name */}
-                            <TextField
+                            <StyledTextField
                                 label="User Name"
                                 fullWidth
                                 {...register("userName", {
@@ -103,7 +104,7 @@ export default function EditSellerModal({ open, handleClose, seller, fetchSeller
                             />
 
                             {/* User Email */}
-                            <TextField
+                            <StyledTextField
                                 label="User Email"
                                 fullWidth
                                 {...register("userEmail", {

@@ -1,9 +1,23 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import Sidebar from "./components/sidebar";
-export default function AdminAuthWrapper({ children }) {
+import Sidebar, { drawerWidth, collapsedWidth } from "./components/sidebar";
+import {
+    AppBar,
+    Toolbar,
+    IconButton,
+    useMediaQuery,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useTheme } from "@mui/material/styles";
+
+export default function SellerAuthWrapper({ children }) {
     const [isAuth, setIsAuth] = useState(null);
     const [isOpen, setIsOpen] = useState(true);
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -13,23 +27,54 @@ export default function AdminAuthWrapper({ children }) {
     if (isAuth === null) return <div>Loading...</div>;
     if (!isAuth) return <div>Please Login to access Seller Dashboard</div>;
 
-    const sidebarWidth = isOpen ? "w-60" : "w-20";
-    const marginLeft = isOpen ? "ml-60" : "ml-20";
-
-    const role = localStorage.getItem("role")
+    const role = localStorage.getItem("role");
+    if (role !== "seller") {
+        return (
+            <h1 className="text-center text-3xl mt-10 text-red-500">
+                Seller Access Only
+            </h1>
+        );
+    }
 
     return (
+        <div className="flex w-full">
+            {/* Mobile Top Bar */}
+            {isMobile && (
+                <AppBar position="fixed">
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => setMobileOpen(true)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+            )}
 
-        role === "seller" ? (
-            < div className="flex" >
-                <div className={`${sidebarWidth} fixed h-screen transition-all duration-300`}>
-                    <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-                </div>
+            <Sidebar
+                isOpen={isOpen}
+                onToggle={() => setIsOpen((p) => !p)}
+                mobileOpen={mobileOpen}
+                handleDrawerToggle={() => setMobileOpen(false)}
+            />
 
-                <div className={`${marginLeft} flex-1 transition-all duration-300`}>
-                    {children}
-                </div>
-            </div >) : <h1 className="text-center text-3xl mt-10 text-red-500">seller AccessOnly</h1>
-
+            {/* Main Content */}
+            <main
+                style={{
+                    marginLeft: isMobile
+                        ? 0
+                        : isOpen
+                            ? drawerWidth
+                            : collapsedWidth,
+                    transition: "margin-left 0.3s",
+                    width: "100%",
+                    paddingTop: isMobile ? 64 : 0,
+                }}
+            >
+                {children}
+            </main>
+        </div>
     );
 }

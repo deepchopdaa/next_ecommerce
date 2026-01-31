@@ -143,6 +143,7 @@ export default async function Page({ params }) {
                 </div>
             </div>
 
+
             <Suspense fallback={<h1 className="text-center mt-10 font-sbold text-3xl">Reviews Loading ...</h1>}>
                 <ReviewForm reviews={reviews} productId={product._id} />
             </Suspense>

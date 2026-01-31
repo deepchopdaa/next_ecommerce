@@ -8,7 +8,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    TextField,
     Typography,
     Table,
     TableBody,
@@ -23,6 +22,7 @@ import {
 import { useForm } from "react-hook-form";
 import SnackbarSimple from "../../../(user)/Components/SnakeBar";
 import { createBrand, deleteBrand, getBrands, updateBrand } from "../../services/brand";
+import StyledTextField from "@/app/components/StyledTextField";
 
 export default function BrandPage() {
     const [brands, setBrands] = useState([]);
@@ -124,7 +124,7 @@ export default function BrandPage() {
                     onSubmit={handleSubmit(onCreate)}
                     sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}
                 >
-                    <TextField
+                    <StyledTextField
                         label="Brand Name"
                         {...register("name", { required: "Brand name is required" })}
                         error={!!errors.name}
@@ -190,7 +190,7 @@ export default function BrandPage() {
 
                     <Box component="form" onSubmit={handleEditSubmit(onUpdate)}>
                         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                            <TextField
+                            <StyledTextField
                                 label="Brand Name"
                                 {...editRegister("name", { required: "Brand name is required" })}
                                 error={!!editErrors.name}

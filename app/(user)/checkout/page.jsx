@@ -1,12 +1,13 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Box, TextField } from "@mui/material"
+import { Button, Box } from "@mui/material"
 import SnackbarSimple from '../Components/SnakeBar'
 import { clearCart } from "@/app/store/slices/cartSlice";
 import { useRouter } from "next/navigation";
 import { createOrder } from '../services/order'
+import StyledTextField from '@/app/components/StyledTextField'
 
 const page = () => {
 
@@ -104,7 +105,7 @@ const page = () => {
 
                         {/* Full Name */}
                         <Box mb={3}>
-                            <TextField
+                            <StyledTextField
                                 label="Full Name"
                                 fullWidth
                                 name="fullName"
@@ -125,7 +126,7 @@ const page = () => {
 
                         {/* Phone */}
                         <Box mb={3}>
-                            <TextField
+                            <StyledTextField
                                 label="Phone Number"
                                 fullWidth
                                 name="phone"
@@ -154,7 +155,7 @@ const page = () => {
 
                         {/* Address */}
                         <Box mb={3}>
-                            <TextField
+                            <StyledTextField
                                 name="address"
                                 label="Address"
                                 fullWidth
@@ -184,7 +185,7 @@ const page = () => {
                                 gap: 2,
                             }}
                         >
-                            <TextField
+                            <StyledTextField
                                 name="city"
                                 label="City"
                                 fullWidth
@@ -202,7 +203,7 @@ const page = () => {
                                 sx={{ bgcolor: "#fff" }}
                             />
 
-                            <TextField
+                            <StyledTextField
                                 name="state"
                                 label="State"
                                 fullWidth
@@ -230,7 +231,7 @@ const page = () => {
                                 gap: 2,
                             }}
                         >
-                            <TextField
+                            <StyledTextField
                                 name="postalCode"
                                 label="Postal Code"
                                 fullWidth
@@ -256,7 +257,7 @@ const page = () => {
                                 sx={{ bgcolor: "#fff" }}
                             />
 
-                            <TextField
+                            <StyledTextField
                                 name="country"
                                 label="Country"
                                 fullWidth

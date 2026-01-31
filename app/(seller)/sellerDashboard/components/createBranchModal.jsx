@@ -4,7 +4,6 @@ import {
     Modal,
     Box,
     Typography,
-    TextField,
     Button,
     Checkbox,
     FormControlLabel,
@@ -12,6 +11,7 @@ import {
 import { useState } from "react";
 import { createSellerBranch, getSellerProfile } from "../services/profile";
 import SnackbarSimple from "@/app/(user)/Components/SnakeBar";
+import StyledTextField from "@/app/components/StyledTextField";
 
 const style = {
     position: "absolute",
@@ -101,13 +101,13 @@ export default function CreateBranchModal({ open, handleClose, sellerId, fetchSe
                         flexDirection="column"
                         gap={1.5}
                     >
-                        <TextField fullWidth label="Branch Name" name="branchName" required onChange={handleChange} />
-                        <TextField fullWidth label="Contact No" name="contactNo" required onChange={handleChange} />
-                        <TextField fullWidth label="Address" name="address" required onChange={handleChange} />
-                        <TextField fullWidth label="City" name="city" required onChange={handleChange} />
-                        <TextField fullWidth label="State" name="state" required onChange={handleChange} />
-                        <TextField fullWidth label="Country" name="country" required onChange={handleChange} />
-                        <TextField fullWidth label="Pincode" name="pincode" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="Branch Name" name="branchName" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="Contact No" name="contactNo" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="Address" name="address" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="City" name="city" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="State" name="state" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="Country" name="country" required onChange={handleChange} />
+                        <StyledTextField fullWidth label="Pincode" name="pincode" required onChange={handleChange} />
 
                         <FormControlLabel
                             control={

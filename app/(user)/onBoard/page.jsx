@@ -3,7 +3,6 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import {
     Box,
-    TextField,
     Button,
     Card,
     CardContent,
@@ -18,6 +17,7 @@ import SnackbarSimple from "../Components/SnakeBar";
 import { onBoardUser } from "../services/onBoard"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import StyledTextField from "@/app/components/StyledTextField";
 export default function SellerBranchForm() {
 
     const router = useRouter()
@@ -94,7 +94,7 @@ export default function SellerBranchForm() {
 
                         <Grid container mt={2} mb={2} spacing={2}>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                <StyledTextField
                                     fullWidth
                                     label="Account Name"
                                     {...register("seller.accountName", { required: true })}
@@ -150,7 +150,7 @@ export default function SellerBranchForm() {
                                             "pincode"
                                         ].map((field) => (
                                             <Grid item xs={12} sm={6} key={field}>
-                                                <TextField
+                                                <StyledTextField
                                                     fullWidth
                                                     label={field.replace(/([A-Z])/g, " $1")}
                                                     {...register(`branches.${index}.${field}`, {

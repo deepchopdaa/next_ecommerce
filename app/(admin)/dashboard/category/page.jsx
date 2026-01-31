@@ -8,7 +8,6 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    TextField,
     Typography,
     Table,
     TableBody,
@@ -23,6 +22,7 @@ import {
 import { useForm } from "react-hook-form";
 import SnackbarSimple from "../../../(user)/Components/SnakeBar"
 import { createCategory, deleteCategory, getCategory, updateCategory } from "../../services/category";
+import StyledTextField from "@/app/components/StyledTextField";
 
 export default function CategoriesPage() {
     const [categories, setCategories] = useState([]);
@@ -153,14 +153,14 @@ export default function CategoriesPage() {
                     onSubmit={handleSubmit(onCreate)}
                     sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}
                 >
-                    <TextField
+                    <StyledTextField
                         label="Category Name"
                         {...register("name", { required: "Name is required" })}
                         error={!!errors.name}
                         helperText={errors.name?.message}
                     />
 
-                    <TextField
+                    <StyledTextField
                         label="Description"
                         multiline
                         rows={3}
@@ -230,14 +230,14 @@ export default function CategoriesPage() {
                         <DialogContent
                             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                         >
-                            <TextField
+                            <StyledTextField
                                 label="Category Name"
                                 {...editRegister("name", { required: "Name is required" })}
                                 error={!!editErrors.name}
                                 helperText={editErrors.name?.message}
                             />
 
-                            <TextField
+                            <StyledTextField
                                 label="Description"
                                 multiline
                                 rows={3}

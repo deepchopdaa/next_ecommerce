@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -22,8 +21,8 @@ import StoreIcon from "@mui/icons-material/Store";
 import CategoryIcon from "@mui/icons-material/Category";
 import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
 
-const drawerWidth = 240;
-const collapsedWidth = 60;
+export const drawerWidth = 240;
+export const collapsedWidth = 60;
 
 const menuItems = [
     { name: "Sellers", href: "/dashboard", icon: <StoreIcon /> },
@@ -31,11 +30,14 @@ const menuItems = [
     { name: "Brand", href: "/dashboard/brand", icon: <BrandingWatermarkIcon /> },
 ];
 
-export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
+export default function Sidebar({
+    isOpen,
+    onToggle,
+    mobileOpen,
+    handleDrawerToggle,
+}) {
     const pathname = usePathname();
-    const [collapsed, setCollapsed] = useState(false);
-
-    const toggleCollapsed = () => setCollapsed(!collapsed);
+    const collapsed = !isOpen;
 
     const drawer = (
         <Box
@@ -57,16 +59,12 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
                 }}
             >
                 {!collapsed && (
-                    <Typography
-                        variant="h6"
-                        fontWeight={700}
-                        letterSpacing={1}
-                    >
+                    <Typography variant="h6" fontWeight={700} letterSpacing={1}>
                         ADMIN
                     </Typography>
                 )}
 
-                <IconButton onClick={toggleCollapsed} size="small" sx={{ color: "#fff" }}>
+                <IconButton onClick={onToggle} size="small" sx={{ color: "#fff", display: { xs: "none", sm: "block" } }}>
                     {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </Toolbar>
@@ -87,24 +85,17 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
                                     mb: 0.5,
                                     borderRadius: 2,
                                     justifyContent: collapsed ? "center" : "flex-start",
-
-                                    // White side indicator
                                     borderLeft: isActive
                                         ? "4px solid #fff"
                                         : "4px solid transparent",
-
                                     backgroundColor: isActive
                                         ? "rgba(255,255,255,0.18)"
                                         : "transparent",
-
                                     "&:hover": {
                                         backgroundColor: "rgba(255,255,255,0.25)",
                                     },
-
-                                    transition: "all 0.2s ease",
                                 }}
                             >
-                                {/* Icon */}
                                 <Box
                                     sx={{
                                         color: "#fff",
@@ -116,7 +107,6 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
                                     {item.icon}
                                 </Box>
 
-                                {/* Text */}
                                 {!collapsed && (
                                     <ListItemText
                                         primary={item.name}
@@ -158,7 +148,7 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
 
     return (
         <>
-            {/* Mobile Drawer */}
+            {/* Mobile */}
             <Drawer
                 variant="temporary"
                 open={mobileOpen}
@@ -172,7 +162,7 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
                 {drawer}
             </Drawer>
 
-            {/* Desktop Drawer */}
+            {/* Desktop */}
             <Drawer
                 variant="permanent"
                 open
@@ -180,7 +170,6 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
                     display: { xs: "none", sm: "block" },
                     "& .MuiDrawer-paper": {
                         width: collapsed ? collapsedWidth : drawerWidth,
-                        boxSizing: "border-box",
                         transition: "width 0.3s",
                         overflowX: "hidden",
                         boxShadow: "4px 0 10px rgba(0,0,0,0.15)",
@@ -192,5 +181,3 @@ export default function Sidebar({ mobileOpen, handleDrawerToggle }) {
         </>
     );
 }
-
-export { drawerWidth, collapsedWidth };

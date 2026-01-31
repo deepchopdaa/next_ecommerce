@@ -162,7 +162,7 @@ export default function SellerProfile({ params }) {
                     </CardContent>
                 </Card>
 
-                {/* 🔹 Branches Section */}
+                {/*  Branches Section */}
                 <div>
                     <Box className="flex justify-between items-center mb-4">
                         <Typography variant="h6" className="font-bold ">
@@ -227,6 +227,7 @@ export default function SellerProfile({ params }) {
                         ))}
                     </div>
                 </div>
+
                 <CreateBranchModal
                     open={open}
                     handleClose={() => setOpen(false)}

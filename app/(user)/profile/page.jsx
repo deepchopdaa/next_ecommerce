@@ -15,6 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { getUserDetail, updateUserDetail } from "../services/profile";
 import SnackbarSimple from "../Components/SnakeBar";
+import StyledTextField from "@/app/components/StyledTextField";
 
 export default function UserProfilePage() {
     const [loading, setLoading] = useState(true);
@@ -142,7 +143,7 @@ export default function UserProfilePage() {
                         {/* Form */}
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Box mb={2.5}>
-                                <TextField
+                                <StyledTextField
                                     label="Full Name"
                                     fullWidth
                                     {...register("name", {
@@ -158,7 +159,7 @@ export default function UserProfilePage() {
                             </Box>
 
                             <Box mb={3}>
-                                <TextField
+                                <StyledTextField
                                     label="Email"
                                     fullWidth
                                     {...register("email")}

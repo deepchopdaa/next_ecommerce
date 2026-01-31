@@ -5,7 +5,6 @@ import { registerUser } from "../services/authService";
 import SnackbarSimple from "../Components/SnakeBar";
 import { useForm } from "react-hook-form"
 import {
-    TextField,
     Button,
     Card,
     CardContent,
@@ -15,6 +14,7 @@ import {
 import { Switch, FormControlLabel } from "@mui/material";
 
 import { useRouter } from "next/navigation";
+import StyledTextField from "@/app/components/StyledTextField";
 
 
 export default function RegisterForm() {
@@ -120,7 +120,7 @@ export default function RegisterForm() {
 
                         <form onSubmit={handleSubmit(submitform)}>
                             <Box mb={2}>
-                                <TextField
+                                <StyledTextField
                                     label="Name"
                                     fullWidth
                                     {...register("name", {
@@ -136,7 +136,7 @@ export default function RegisterForm() {
                             </Box>
 
                             <Box mb={2}>
-                                <TextField
+                                <StyledTextField
                                     label="Email"
                                     fullWidth
                                     {...register("email", {
@@ -149,10 +149,10 @@ export default function RegisterForm() {
                                     error={!!errors.email}
                                     helperText={errors.email?.message}
                                 />
-                            </Box>
+                            </Box>  
 
                             <Box mb={2}>
-                                <TextField
+                                <StyledTextField
                                     label="Password"
                                     type="password"
                                     fullWidth

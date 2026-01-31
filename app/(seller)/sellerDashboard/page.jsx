@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SnackbarSimple from "../../(user)/Components/SnakeBar";
 import { useForm } from "react-hook-form";
 import {
@@ -15,11 +15,9 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    TextField,
     FormControlLabel,
     Checkbox,
     Box,
-    FormControl,
     InputLabel,
     Select,
     MenuItem,
@@ -28,6 +26,8 @@ import {
 import Image from "next/image";
 import { getSellerProfile } from "./services/profile";
 import { createAndUpdateProducts, deleteProducts, getBrands, getCategory, getProducts, getUserDetail } from "./services/product";
+import StyledTextField from "@/app/components/StyledTextField";
+import { StyledFormControl } from "@/app/components/StyledFormControl";
 
 
 const inputStyle = {
@@ -385,7 +385,7 @@ export default function ProductTable() {
                     <form onSubmit={handleSubmit(handleSave)}>
                         <DialogContent>
 
-                            <TextField
+                            <StyledTextField
                                 label="Name"
                                 fullWidth
                                 margin="dense"
@@ -395,7 +395,7 @@ export default function ProductTable() {
                                 helperText={errors.name?.message}
                             />
 
-                            <TextField
+                            <StyledTextField
                                 label="Description"
                                 fullWidth
                                 margin="dense"
@@ -405,7 +405,7 @@ export default function ProductTable() {
                                 helperText={errors.description?.message}
                             />
 
-                            <FormControl fullWidth margin="dense" sx={inputStyle} error={!!errors.category}>
+                            <StyledFormControl fullWidth margin="dense" sx={inputStyle} error={!!errors.category}>
                                 <InputLabel>Brand</InputLabel>
 
                                 <Select
@@ -429,9 +429,9 @@ export default function ProductTable() {
                                         {errors.brand.message}
                                     </p>
                                 )}
-                            </FormControl>
+                            </StyledFormControl>
 
-                            <FormControl fullWidth margin="dense" sx={inputStyle} error={!!errors.category}>
+                            <StyledFormControl fullWidth margin="dense" sx={inputStyle} error={!!errors.category}>
                                 <InputLabel>Category</InputLabel>
 
                                 <Select
@@ -453,8 +453,8 @@ export default function ProductTable() {
                                         {errors.category.message}
                                     </p>
                                 )}
-                            </FormControl>
-                            <FormControl fullWidth margin="dense" sx={inputStyle} error={!!errors.category}>
+                            </StyledFormControl>
+                            <StyledFormControl fullWidth margin="dense" sx={inputStyle} error={!!errors.category}>
                                 <InputLabel>Branch</InputLabel>
 
                                 <Select
@@ -478,9 +478,9 @@ export default function ProductTable() {
                                         {errors.category.message}
                                     </p>
                                 )}
-                            </FormControl>
+                            </StyledFormControl>
 
-                            <TextField
+                            <StyledTextField
                                 label="Price"
                                 type="number"
                                 fullWidth
@@ -491,7 +491,7 @@ export default function ProductTable() {
                                 helperText={errors.price?.message}
                             />
 
-                            <TextField
+                            <StyledTextField
                                 label="Discounted Price"
                                 type="number"
                                 fullWidth
@@ -502,7 +502,7 @@ export default function ProductTable() {
                                 helperText={errors.discountPrice?.message}
                             />
 
-                            <TextField
+                            <StyledTextField
                                 label="Stock"
                                 type="number"
                                 fullWidth
